@@ -3,7 +3,7 @@
 **
 */
 
-#define DEFAULT_AP "PIDKiln_AP"
+#define DEFAULT_AP "ESP32Kiln_AP"
 #define DEFAULT_PASS "hotashell"
 
 // Other variables

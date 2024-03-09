@@ -1,5 +1,7 @@
 #include <PID_v1.h>
 #include <Syslog.h>
+#include <map>
+
 
 /* 
 ** Some definitions - usually you should not edit this, but you may want to
@@ -24,7 +26,7 @@ const int MAX_Prog_File_Size=10240;  // maximum file size (bytes) that can be up
 
 // MAX31855 variables/defs
 #define MAXCS1  27    // for hardware SPI - HSPI (MOSI-13, MISO-12, CLK-14) - 1st device CS-27
-#define MAXCS2  15    // same SPI - 2nd device CS-15 (comment out if no second thermocouple)
+#define MAXCS2  33    // same SPI - 2nd device CS-15 (comment out if no second thermocouple)
 
 // If you have power meter - uncoment this
 //#define ENERGY_MON_PIN 33       // if you don't use - comment out
@@ -305,8 +307,8 @@ File CSVFile,LOGFile;
 ** Other stuff
 **
 */
-const char *PVer = "PIDKiln v1.5";
-const char *PDate = "2024.12.18";
+const char *PVer = "ESP32Kiln v1.5";
+const char *PDate = "2024.02.15";
 
 // If defined debug - do debug, otherwise comment out all debug lines
 #define DBG if(DEBUG)
@@ -315,6 +317,9 @@ const char *PDate = "2024.12.18";
 WiFiUDP udpClient;
 Syslog syslog(udpClient, SYSLOG_PROTO_IETF);
 
+// OTA
+std::map<String, String> networks;
+EasyOTA OTA;
 
 #define JS_JQUERY "https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"
 #define JS_CHART "https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.bundle.min.js"
@@ -333,3 +338,4 @@ void LCD_Display_quick_program(int dir=0,byte pos=0);
 uint8_t Cleanup_program(uint8_t err=0);
 uint8_t Load_program(char *file=0);
 void ABORT_Program(uint8_t error=0);
+void S_printf(const char * format, ...);

@@ -275,3 +275,26 @@ char tmp[30];
         break;
     }
 }
+
+bool setup_OTA(String hostname) {
+  DBG dbgLog(LOG_INFO, "OTA setup");
+
+  OTA = new EasyOTA(hostname);
+
+  std::map<String, String>::iterator I = networks.begin();
+  while (I != networks.end()) {
+    OTA->addAP(I->first, I->second);
+    DBG dbgLog(LOG_INFO, "[OTA] Add network:", I->first);
+    I++;
+  }
+
+  OTA->onConnect([](const String& ssid, EasyOTA::STATE state) {
+    DBG dbgLog(LOG_INFO, "[OTA] Connected %s, state: %s", ssid.c_str(), state == EasyOTA::EOS_STA ? "Station" : "Access Point");
+  });
+
+  OTA->onMessage([](const String& msg, int line) {
+    DBG dbgLog(LOG_INFO, "[OTA] OTA message: %s", msg.c_str());
+  });
+  
+  return true;
+}
