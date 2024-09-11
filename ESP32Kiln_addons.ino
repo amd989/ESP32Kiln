@@ -87,7 +87,7 @@ void Update_TemperatureA()
   kiln_tmp1 = ThermocoupleA.readCelsius();
   kiln_temp=(kiln_temp*0.9+kiln_tmp1*0.1);    // We try to make bigger hysteresis
   
-  DBG dbgLog(LOG_DEBUG, "[ADDONS] Temperature sensor A readout: Internal temp = %.1f \t Last temp = %.1f \t Average kiln temp = %.1f\n", int_temp, kiln_tmp1, kiln_temp); 
+  DBG dbgLog(LOG_DEBUG, "[ADDONS] Temperature sensor A readout: Last temp = %.1f \t Average kiln temp = %.1f\n", kiln_tmp1, kiln_temp); 
 }
 
 
@@ -166,7 +166,7 @@ void Update_TemperatureB()
   case_tmp1 = ThermocoupleB.readCelsius();
   case_temp=(case_temp*0.8+case_tmp1*0.2);    // We try to make bigger hysteresis
   
-  DBG dbgLog(LOG_DEBUG,"[ADDONS] Temperature sensor B readout: Internal temp = %.1f \t Last temp = %.1f \t Average case temp = %.1f\n", int_temp, case_tmp1, case_temp); 
+  DBG dbgLog(LOG_DEBUG,"[ADDONS] Temperature sensor B readout: Last temp = %.1f \t Average case temp = %.1f\n", case_tmp1, case_temp); 
 }
 
 

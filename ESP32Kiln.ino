@@ -158,6 +158,9 @@ void setup() {
       
       sprintf(msg," IP: %s",lips.toString().c_str());
       load_msg(msg);
+
+      // Setup OTA
+      setup_OTA("ESP32Kiln");
     }
   }else{
     // If we don't have Internet - assume there is no time set

@@ -277,23 +277,28 @@ char tmp[30];
 }
 
 bool setup_OTA(String hostname) {
-  DBG dbgLog(LOG_INFO, "OTA setup");
+  DBG dbgLog(LOG_INFO, "OTA setup \n");
 
   OTA = new EasyOTA(hostname);
+
+  // TODO: Fix this
+  networks.empty();
+  networks.insert(std::pair<String, String>(Prefs[PRF_WIFI_SSID].value.str, Prefs[PRF_WIFI_PASS].value.str));
+  // TODO
 
   std::map<String, String>::iterator I = networks.begin();
   while (I != networks.end()) {
     OTA->addAP(I->first, I->second);
-    DBG dbgLog(LOG_INFO, "[OTA] Add network:", I->first);
+    DBG dbgLog(LOG_INFO, "[OTA] Add network: %s \n", I->first);
     I++;
   }
 
   OTA->onConnect([](const String& ssid, EasyOTA::STATE state) {
-    DBG dbgLog(LOG_INFO, "[OTA] Connected %s, state: %s", ssid.c_str(), state == EasyOTA::EOS_STA ? "Station" : "Access Point");
+    DBG dbgLog(LOG_INFO, "[OTA] Connected %s, state: %s \n", ssid.c_str(), state == EasyOTA::EOS_STA ? "Station" : "Access Point");
   });
 
   OTA->onMessage([](const String& msg, int line) {
-    DBG dbgLog(LOG_INFO, "[OTA] OTA message: %s", msg.c_str());
+    DBG dbgLog(LOG_INFO, "[OTA] message: %s \n", msg.c_str());
   });
   
   return true;

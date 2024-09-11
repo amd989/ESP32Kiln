@@ -493,8 +493,11 @@ static uint16_t cnt1=0;
 uint32_t now;
 
  for(;;){
-
+    
     now = millis();
+
+    // OTA
+    // OTA->loop(now);
  
     // Interrupts triggered ones per second
     // 

@@ -1,6 +1,6 @@
 const valuesUrl = "/PIDKiln_vars.json";
 
-var program_status=0;	// status of the pidkiln program 0-none,1-ready... etc = check pidkiln.h
+var program_status=0;	// status of the ESP32Kiln program 0-none,1-ready... etc = check ESP32Kiln.h
 
 function dis_bttn(bid){
   $(bid).attr("disabled", true);
