@@ -24,7 +24,7 @@
 **
 */
 
-#include <EasyOTA.h>
+#include <ArduinoOTA.h>
 #include <WiFi.h>
 #include <WiFiClient.h>
 #include <WiFiUdp.h>

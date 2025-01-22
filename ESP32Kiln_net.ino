@@ -159,7 +159,6 @@ struct tm timeinfo;
   }
 }
 
-
 // Perform WiFi restart - usually when something does not work right - reinitialize it (perhaps preferences has changed)
 //
 boolean Restart_WiFi(){

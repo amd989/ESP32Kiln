@@ -497,7 +497,7 @@ uint32_t now;
     now = millis();
 
     // OTA
-    // OTA->loop(now);
+    ArduinoOTA.handle();
  
     // Interrupts triggered ones per second
     // 

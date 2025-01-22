@@ -219,7 +219,6 @@ char tmp[30];
         Prefs[PRF_PID_TEMP_THRESHOLD].type=INT16;
         Prefs[PRF_PID_TEMP_THRESHOLD].value.int16=-1;
         break;
-
       case PRF_LOG_WINDOW:
         Prefs[PRF_LOG_WINDOW].type=UINT16;
         Prefs[PRF_LOG_WINDOW].value.uint16=30;
@@ -276,30 +275,24 @@ char tmp[30];
     }
 }
 
-bool setup_OTA(String hostname) {
-  DBG dbgLog(LOG_INFO, "OTA setup \n");
-
-  OTA = new EasyOTA(hostname);
-
-  // TODO: Fix this
-  networks.empty();
-  networks.insert(std::pair<String, String>(Prefs[PRF_WIFI_SSID].value.str, Prefs[PRF_WIFI_PASS].value.str));
-  // TODO
-
-  std::map<String, String>::iterator I = networks.begin();
-  while (I != networks.end()) {
-    OTA->addAP(I->first, I->second);
-    DBG dbgLog(LOG_INFO, "[OTA] Add network: %s \n", I->first);
-    I++;
-  }
-
-  OTA->onConnect([](const String& ssid, EasyOTA::STATE state) {
-    DBG dbgLog(LOG_INFO, "[OTA] Connected %s, state: %s \n", ssid.c_str(), state == EasyOTA::EOS_STA ? "Station" : "Access Point");
-  });
-
-  OTA->onMessage([](const String& msg, int line) {
-    DBG dbgLog(LOG_INFO, "[OTA] message: %s \n", msg.c_str());
-  });
+bool setup_OTA(const char* hostname) {
   
+  DBG dbgLog(LOG_INFO, "OTA setup \n");  
+  // For OTA - Use your own device identifying name (in Constants.h)
+  ArduinoOTA.setHostname(hostname); 
+  ArduinoOTA.onStart([]() {
+    String type;
+    if (ArduinoOTA.getCommand() == U_FLASH) {
+      type = "sketch";
+    } else { // U_FS
+      type = "filesystem";
+    }
+
+    // NOTE: if updating FS this would be the place to unmount FS using FS.end()
+    Serial.println("Start updating " + type);
+    DBG dbgLog(LOG_INFO, "[OTA] Start updating: %s \n", type);
+  });
+
+  ArduinoOTA.begin();
   return true;
 }
