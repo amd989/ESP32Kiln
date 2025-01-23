@@ -132,7 +132,7 @@ char rest[MAX_CHARS_PL];
 **
 */
 
-// Third main view - operations (start,pause,stop)
+// Third Home - operations (start,pause,stop)
 //
 void LCD_display_mainv3(int dir=0, byte ctrl=0){
 char msg[MAX_CHARS_PL];
@@ -205,7 +205,7 @@ static int what=0;
 }
 
 
-// Second main view - program graph
+// Second Home - program graph
 //
 void LCD_display_mainv2(){
 uint16_t ttime=0,mxtemp=0,mxx=0,mxy=0,x,y,oldx,oldy,scx,scy,startx,starty;
@@ -279,7 +279,7 @@ char msg[MAX_CHARS_PL];
 
 
 
-// Fist main view - basic running program information, status, time, start time, eta, temperatures
+// Fist Home - basic running program information, status, time, start time, eta, temperatures
 //
 void LCD_display_mainv1(){
 char msg[MAX_CHARS_PL];

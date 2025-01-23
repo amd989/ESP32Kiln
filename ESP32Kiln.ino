@@ -40,7 +40,6 @@
 ** Static, editable parameters. Some of them, can be replaces with ESP32Kiln preferences.
 ** Please set them up before uploading.
 */
-#define TEMPLATE_PLACEHOLDER '~' // THIS DOESN'T WORK NOW FROM HERE - replace it in library! Arduino/libraries/ESPAsyncWebServer/src/WebResponseImpl.h
 
 // If you have Wrover with PSRAM
 //#define MALLOC ps_malloc

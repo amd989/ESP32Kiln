@@ -526,7 +526,7 @@ uint32_t now;
         Read_Energy_INPUT();
       }
 #endif
-      // Do Main view screen refreshing if there is a program and if it's running
+      // Do Home screen refreshing if there is a program and if it's running
       if(LCD_State==SCR_MAIN_VIEW && Program_run_size && LCD_Main==MAIN_VIEW1) LCD_display_mainv1();
 
       if(Program_run_state==PR_RUNNING || Program_run_state==PR_PAUSED || Program_run_state==PR_THRESHOLD){

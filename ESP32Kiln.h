@@ -87,7 +87,7 @@ LCD_State_enum LCD_State=SCR_MAIN_VIEW;          // global variable to keep trac
 LCD_MAIN_View_enum LCD_Main=MAIN_VIEW1;          // main screen has some views - where are we
 LCD_SCR_MENU_Item_enum LCD_Menu=M_SCR_MAIN_VIEW; // menu items
 
-const char *Menu_Names[] = {"1) Main view", "2) List programs", "3) Quick program", "4) Information", "5) Preferences", "6) Reconnect WiFi", "7) About", "8) Restart"};
+const char *Menu_Names[] = {"1) Home", "2) List programs", "3) Quick program", "4) Information", "5) Preferences", "6) Reconnect WiFi", "7) About", "8) Restart"};
 
 typedef enum { // program menu positions
   P_EXIT,
@@ -317,10 +317,9 @@ const char *PDate = "2024.02.15";
 WiFiUDP udpClient;
 Syslog syslog(udpClient, SYSLOG_PROTO_IETF);
 
-#define JS_JQUERY "https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"
+#define JS_JQUERY "https://code.jquery.com/jquery-3.5.1.min.js"
 #define JS_CHART "https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.bundle.min.js"
 #define JS_CHART_DS "https://cdn.jsdelivr.net/npm/chartjs-plugin-datasource"
-
 
 /*
 ** Function defs
