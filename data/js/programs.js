@@ -14,3 +14,11 @@ function ValidateSize(file) {
         }
 }
 
+
+(function() {
+	window.addEventListener('load', function() {		
+		if(document.getElementById('PID_Algorithm'))
+			document.getElementById('PID_Algorithm').value=document.getElementById('PID_Algorithm').getAttribute("value");
+		});
+})();
+

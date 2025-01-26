@@ -285,12 +285,21 @@
                         <div class="mb-3 row">
                               <label for="PID_Algorithm" class="col-sm-3 col-form-label"> PID Algorithm </label>
                               <div class="col-sm-6">
-                                    <select id="PID_Algorithm" class="form-select">
-                                          <option value="0"> %PID_Algorithm0% </option>
-                                    </select>
+                                    <select id="PID_Algorithm" class="form-select" value="%PID_Algorithm%">
+                                          <option value="0">ZIEGLER_NICHOLS_PI</option>
+                                          <option value="1">ZIEGLER_NICHOLS_PID</option>
+                                          <option value="2">TYREUS_LUYBEN_PI</option>
+                                          <option value="3">TYREUS_LUYBEN_PID</option>
+                                          <option value="4">CIANCONE_MARLIN_PI</option>
+                                          <option value="5">CIANCONE_MARLIN_PID</option>
+                                          <option value="6">AMIGOF_PI</option>
+                                          <option value="7">PESSEN_INTEGRAL_PID</option>
+                                          <option value="8">SOME_OVERSHOOT_PID</option>
+                                          <option value="9">NO_OVERSHOOT_PID</option>
+                                    </select>                                
                               </div>
                               <div class="col-sm-3">
-                                    <input type="button" name="PID_Auto" value="Auto PID"
+                                    <input type="submit" name="pidauto" value="Auto PID"
                                           class="btn btn-outline-secondary" title="Automatically Calculate PID Values">
                               </div>
                         </div>

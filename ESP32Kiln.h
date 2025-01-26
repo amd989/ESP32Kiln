@@ -43,6 +43,7 @@ double set_temp, pid_out;
 float temp_incr=0;
 uint32_t windowStartTime;
 #define PID_WINDOW_DIVIDER 1
+uint32_t now;
 
 //Specify the links and initial tuning parameters
 PID KilnPID(&kiln_temp, &pid_out, &set_temp, 0, 0, 0, P_ON_E, DIRECT);
@@ -237,6 +238,7 @@ typedef enum { // program menu positions
   PRF_INIT_DATE,
   PRF_INIT_TIME,
   
+  PRF_PID_ALGORITHM,
   PRF_PID_WINDOW,
   PRF_PID_KP,
   PRF_PID_KI,
@@ -267,7 +269,7 @@ const char *PrefsName[]={
 "HTTP_Local_JS",
 "Auth_Username","Auth_Password",
 "NTP_Server1","NTP_Server2","NTP_Server3","GMT_Offset_sec","Daylight_Offset_sec","Initial_Date","Initial_Time",
-"PID_Window","PID_Kp","PID_Ki","PID_Kd","PID_POE","PID_Temp_Threshold",
+"PID_Algorithm", "PID_Window","PID_Kp","PID_Ki","PID_Kd","PID_POE","PID_Temp_Threshold",
 "LOG_Window","LOG_Files_Limit",
 "MIN_Temperature","MAX_Temperature","MAX_Housing_Temperature","Thermal_Runaway","Alarm_Timeout","MAX31855_Error_Grace_Count",
 "DBG_Serial","DBG_Syslog","DBG_Syslog_Srv","DBG_Syslog_Port",

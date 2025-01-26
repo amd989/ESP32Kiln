@@ -57,6 +57,7 @@ String Preferences_parser(const String& var){
  else if(var=="Alarm_Timeout") return String(Prefs[PRF_ALARM_TIMEOUT].value.uint16);
  else if(var=="MAX31855_Error_Grace_Count") return String(Prefs[PRF_ERROR_GRACE_COUNT].value.uint8);
 
+ else if(var=="PID_Algorithm") return String(Prefs[PRF_PID_ALGORITHM].value.uint16);
  else if(var=="PID_Window") return String(Prefs[PRF_PID_WINDOW].value.uint16);
  else if(var=="PID_Kp") return String(Prefs[PRF_PID_KP].value.vfloat);
  else if(var=="PID_Ki") return String(Prefs[PRF_PID_KI].value.vfloat);
@@ -558,6 +559,10 @@ boolean save=false;
       DBG dbgLog(LOG_DEBUG,"[HTTP] Prefs parser POST[%s]: %s\n", p->name().c_str(), p->value().c_str());
       if(p->name().equalsIgnoreCase("save")){
         save=true;
+        continue;
+      }else if(p->name().equalsIgnoreCase("pidauto")){
+        DBG dbgLog(LOG_DEBUG,"[HTTP] Handle PID Auto Calibration");
+        HandleCalibration();
         continue;
       }else if(p->name().equalsIgnoreCase("update")){
         continue;
