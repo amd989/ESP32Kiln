@@ -7,14 +7,16 @@
  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+ <link href="css/esp32kiln-theme.css" rel="stylesheet">
  <script type="text/javascript" src="js/nav.js"></script>
  <script type="text/javascript" src="js/programs.js"></script>
  <meta name="viewport" content="width=device-width, initial-scale=1">
  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♨️</text></svg>">
 </head>
 <body>
 
-  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm">
     <div class="container-fluid">
           <a class="navbar-brand" href="#">ESP32Kiln </a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -24,25 +26,25 @@
           <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                       <li class="nav-item">
-                            <a class="nav-link" href="/index.html">Home</a>
+                            <a class="nav-link" href="/index.html"><i class="bi bi-house-door me-1"></i>Home</a>
                       </li>
                       <li class="nav-item">
-                            <a class="nav-link" href="/programs/index.html">Profiles</a>
+                            <a class="nav-link" href="/programs/index.html"><i class="bi bi-graph-up me-1"></i>Profiles</a>
                       </li>
                       <li class="nav-item">
-                            <a class="nav-link" href="/logs/index.html">Logs</a>
+                            <a class="nav-link" href="/logs/index.html"><i class="bi bi-file-text me-1"></i>Logs</a>
                       </li>
                       <li class="nav-item">
-                            <a class="nav-link" href="/preferences.html">Preferences</a>
+                            <a class="nav-link" href="/preferences.html"><i class="bi bi-gear me-1"></i>Preferences</a>
                       </li>
                       <li class="nav-item">
-                            <a class="nav-link" href="/about.html">About</a>
+                            <a class="nav-link" href="/about.html"><i class="bi bi-info-circle me-1"></i>About</a>
                       </li>
                       <li class="nav-item">
-                            <a class="nav-link active" href="/debug_board.html">Debug ESP</a>
+                            <a class="nav-link active" href="/debug_board.html"><i class="bi bi-bug me-1"></i>Debug ESP</a>
                       </li>
                       <li class="nav-item">
-                            <a class="nav-link" href="/flash_firmware.html">Flash firmware</a>
+                            <a class="nav-link" href="/flash_firmware.html"><i class="bi bi-upload me-1"></i>Flash firmware</a>
                       </li>
                 </ul>
                 <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
@@ -88,8 +90,16 @@
 </nav>
 
 <div class="container mt-4">
-  <div class="table-responsive">
-    <table class="table table-bordered">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/index.html"><i class="bi bi-house-door me-1"></i>Home</a></li>
+      <li class="breadcrumb-item active" aria-current="page"><i class="bi bi-bug me-1"></i>Debug ESP</li>
+    </ol>
+  </nav>
+  
+  <div class="table-container">
+    <div class="table-responsive">
+      <table class="table table-striped mb-0">
       <thead>
         <tr><th colspan="2">Main chip information:</th></tr>
       </thead>
@@ -102,31 +112,32 @@
         <tr><td>CPU frequency:</td><td>%CPU_FREQ% Mhz</td></tr>
         <tr><td>SDK version:</td><td>%SDK_VERSION%</td></tr>
         <tr><td>MAC address:</td><td>%MAC_ADDRESS%</td></tr>
-        <tr><td colspan="2"><hr></td></tr>
+        <tr><td colspan="2" class="section-divider"></td></tr>
         <tr><th colspan="2">SPI FLASH chip information:</th></tr>
         <tr><td>Flash size:</td><td>%SFLASH_RAM% MiB</td></tr>
         <tr><td>Flash frequency:</td><td>%FLASH_FREQ% Mhz</td></tr>
         <tr><td>Flash mode:</td><td>%FLASH_MODE%</td></tr>
         <tr><td>Current sketch size:</td><td>%SKETCH_SIZE% KiB</td></tr>
         <tr><td>Total sketch space:</td><td>%SKETCH_TOTAL% KiB</td></tr>
-        <tr><td colspan="2"><hr></td></tr>
+        <tr><td colspan="2" class="section-divider"></td></tr>
         <tr><th colspan="2">SPI PSRAM chip information:</th></tr>
         <tr><td>Total PSRAM size:</td><td>%TOTAL_PSRAM% KiB</td></tr>
         <tr><td>Free PSRAM size:</td><td>%FREE_PSRAM% KiB</td></tr>
         <tr><td>Smallest free PSRAM since boot:</td><td>%SMALEST_PSRAM% KiB</td></tr>
         <tr><td>Largest free PSRAM block now:</td><td>%LARGEST_PSRAM% KiB</td></tr>
-        <tr><td colspan="2"><hr></td></tr>
+        <tr><td colspan="2" class="section-divider"></td></tr>
         <tr><th colspan="2">RAM memory information:</th></tr>
         <tr><td>Total heap size:</td><td>%TOTAL_HEAP% KiB</td></tr>
         <tr><td>Free heap size:</td><td>%FREE_HEAP% KiB</td></tr>
         <tr><td>Smallest free heap since boot:</td><td>%SMALEST_HEAP% KiB</td></tr>
         <tr><td>Largest free heap block now:</td><td>%LARGEST_HEAP% KiB</td></tr>
-        <tr><td colspan="2"><hr></td></tr>
+        <tr><td colspan="2" class="section-divider"></td></tr>
         <tr><th colspan="2">File system (SPIFFS) information:</th></tr>
         <tr><td>Total KB:</td><td>%TOTAL_KB% KiB</td></tr>
         <tr><td>Used KB:</td><td>%USED_KB% KiB</td></tr>
       </tbody>
-    </table>
+      </table>
+    </div>
   </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 

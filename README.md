@@ -1,5 +1,5 @@
-# pidkiln
-PIDKiln is PID temperature controller, for any task involving high temperatures - like burning ceramic, glass fusing, soft metal melting, burning lost wax casting forms - and probably much more.
+# ESP32Kiln
+ESP32Kiln is PID temperature controller, for any task involving high temperatures - like burning ceramic, glass fusing, soft metal melting, burning lost wax casting forms - and probably much more.
 
 ## Key features:
 - Interface accessible both from LCD screen and WWW Webpage

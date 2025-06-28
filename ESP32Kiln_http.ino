@@ -223,7 +223,7 @@ template_str=String();
   for(uint16_t a=0; a<Programs_DIR_size; a++){
     tmp=String(PRG_Directory)+String("/")+String(Programs_DIR[a].filename);
     
-    template_str += "<tr><td><img src=\"/icons/heat.png\" alt=\"[ICO]\"></td>";
+    template_str += "<tr><td><i class=\"bi bi-file-text text-primary\" style=\"font-size: 1.2rem;\"></i></td>";
     template_str += "<td><a href=\""+tmp+"\" target=\"_blank\">"+String(Programs_DIR[a].filename)+"</a></td>";  
     template_str += "<td>"+String(Programs_DIR[a].filesize)+"</td>";
     if(file=SPIFFS.open(tmp.c_str(),"r")){
