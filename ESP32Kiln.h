@@ -309,8 +309,8 @@ File CSVFile,LOGFile;
 ** Other stuff
 **
 */
-const char *PVer = "ESP32Kiln v1.5";
-const char *PDate = "2024.02.15";
+const char *PVer = "ESP32Kiln v1.6";
+const char *PDate = "2025.06.28";
 
 // If defined debug - do debug, otherwise comment out all debug lines
 #define DBG if(DEBUG)
