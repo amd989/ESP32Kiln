@@ -1,5 +1,5 @@
 /*
-** ESP32Kiln v1.3 - high temperature kiln PID controller for ESP32
+** ESP32Kiln v1.6 - high temperature kiln PID controller for ESP32
 **
 ** Copyright (C) 2019-2025 - Adrian Siemieniak
 **
