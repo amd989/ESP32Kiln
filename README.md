@@ -14,9 +14,9 @@ ESP32Kiln is PID temperature controller, for any task involving high temperature
 - ...simply cool and cheap (comparing to commercially available products) all in one solution
 
 ### Sample LCD screens
-![LCD menu sample](https://raw.githubusercontent.com/Saur0o0n/pidkiln/master/Documentation/images/PIDKiln_LCD_sample2.png)
+![LCD menu sample](Documentation/images/PIDKiln_LCD_sample2.png)
 ### Sample Web interface window
-![Web interface](https://github.com/Saur0o0n/PIDKiln/blob/master/Documentation/images/PIDKiln-web-chart.jpg)
+![Web interface](Documentation/images/PIDKiln-web-chart.png)
 
 ## Required components:
 - ESP32-Wrover board (I've used TTGO with MicroSD)
@@ -150,11 +150,11 @@ GND   | GND
 
 **Minimal configuration of PIDKiln**
 
-![PIDkiln minimal wiring](https://raw.githubusercontent.com/Saur0o0n/pidkiln/master/Documentation/PIDKiln_Wiring-min.png)
+![PIDkiln minimal wiring](Documentation/PIDKiln_Wiring-min.png)
 
 **Standard configuration of PIDKiln**
 
-![PIDkiln wiring](https://raw.githubusercontent.com/Saur0o0n/pidkiln/master/Documentation/PIDKiln_Wiring.png)
+![PIDkiln wiring](Documentation/PIDKiln_Wiring.png)
 
 ## Power consideration
 
