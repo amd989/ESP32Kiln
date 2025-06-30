@@ -3,16 +3,23 @@
 **
 */
 #include <MAX31855.h>
+#include "max6675.h"
 
 // Initialize SPI and MAX31855
 SPIClass *ESP32_SPI = new SPIClass(HSPI);
-MAX31855 ThermocoupleA(MAXCS1);
+
+// MAX31855 ThermocoupleA(MAXCS1);
+
+int thermoDO = 12;
+int thermoCLK = 14;
+
+MAX6675 ThermocoupleA(thermoCLK, MAXCS1, thermoDO);
 
 // If we have defines power meter pins
 #ifdef ENERGY_MON_PIN
 #include <EmonLib.h>
 #define ENERGY_MON_AMPS 30        // how many amps produces 1V on your meter (usualy with voltage output meters it's their max value).
-#define EMERGY_MON_VOLTAGE 230    // what is your mains voltage
+#define EMERGY_MON_VOLTAGE 110    // what is your mains voltage
 #define ENERGY_IGNORE_VALUE 0.4   // if measured current is below this - ignore it (it's just noise)
 EnergyMonitor emon1;
 #endif
@@ -21,7 +28,8 @@ double Energy_Usage=0;            // total energy used (Watt/time)
 
 // If you have second thermoucouple
 #ifdef MAXCS2
-MAX31855 ThermocoupleB(MAXCS2);
+// MAX31855 ThermocoupleB(MAXCS2);
+MAX6675  ThermocoupleB(thermoCLK, MAXCS2, thermoDO);
 #endif
 
 boolean SSR_On; // just to narrow down state changes.. I don't know if this is needed/faster
@@ -66,7 +74,24 @@ void print_bits(uint32_t raw){
 Serial.println();
 }
 
+// ThermocoupleA temperature readout
+//
+void Update_TemperatureA()
+{
+  uint32_t raw;
+  double kiln_tmp1;
 
+  //kiln_tmp1 = ThermocoupleA.getColdJunctionTemperature(raw); 
+  int_temp = (int_temp+kiln_tmp1)/2;
+  
+  kiln_tmp1 = ThermocoupleA.readCelsius();
+  kiln_temp=(kiln_temp*0.9+kiln_tmp1*0.1);    // We try to make bigger hysteresis
+  
+  DBG dbgLog(LOG_DEBUG, "[ADDONS] Temperature sensor A readout: Last temp = %.1f \t Average kiln temp = %.1f\n", kiln_tmp1, kiln_temp); 
+}
+
+
+/*
 // ThermocoupleA temperature readout
 //
 void Update_TemperatureA(){
@@ -121,8 +146,31 @@ double kiln_tmp1;
   DBG dbgLog(LOG_DEBUG, "[ADDONS] Temperature sensor A readout: Internal temp = %.1f \t Last temp = %.1f \t Average kiln temp = %.1f\n", int_temp, kiln_tmp1, kiln_temp); 
 }
 
+*/
+
 
 #ifdef MAXCS2
+
+
+
+// ThermocoupleB temperature readout
+//
+void Update_TemperatureB()
+{
+  uint32_t raw;
+  double case_tmp1;
+
+  //case_tmp1 = ThermocoupleB.getColdJunctionTemperature(raw); 
+  int_temp = (int_temp+case_tmp1)/2;
+  
+  case_tmp1 = ThermocoupleB.readCelsius();
+  case_temp=(case_temp*0.8+case_tmp1*0.2);    // We try to make bigger hysteresis
+  
+  DBG dbgLog(LOG_DEBUG,"[ADDONS] Temperature sensor B readout: Last temp = %.1f \t Average case temp = %.1f\n", case_tmp1, case_temp); 
+}
+
+
+/*
 // ThermocoupleB temperature readout
 //
 void Update_TemperatureB(){
@@ -175,6 +223,7 @@ double case_tmp1;
 
   DBG dbgLog(LOG_DEBUG,"[ADDONS] Temperature sensor B readout: Internal temp = %.1f \t Last temp = %.1f \t Average case temp = %.1f\n", int_temp, case_tmp1, case_temp); 
 }
+*/
 #endif
 
 
@@ -246,9 +295,9 @@ void Setup_Addons(){
   pinMode(ALARM_PIN, OUTPUT);
 
   SSR_On=false;
-  ThermocoupleA.begin(ESP32_SPI);
+ /// ThermocoupleA.begin(ESP32_SPI);
 #ifdef MAXCS2
-  ThermocoupleB.begin(ESP32_SPI);
+ /// ThermocoupleB.begin(ESP32_SPI);
 #endif
 #ifdef ENERGY_MON_PIN
   emon1.current(ENERGY_MON_PIN, ENERGY_MON_AMPS);

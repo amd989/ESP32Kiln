@@ -1,5 +1,5 @@
 /*
-** PIDKiln v1.5 - high temperature kiln PID controller for ESP32
+** ESP32Kiln v1.6 - high temperature kiln PID controller for ESP32
 **
 ** Copyright (C) 2019-2025 - Adrian Siemieniak
 **
@@ -23,6 +23,9 @@
 ** All variables beeing global are written with capital leter on start of each word (or at least they should be). All definitions are all capital letters.
 **
 */
+
+
+#include <ArduinoOTA.h>
 #include <WiFi.h>
 #include <WiFiClient.h>
 #include <WiFiUdp.h>
@@ -32,21 +35,20 @@
 #include <rtc_wdt.h>
 #include <esp_task_wdt.h>
 
-#include "PIDKiln.h"
+#include "ESP32Kiln.h"
 
 /* 
-** Static, editable parameters. Some of them, can be replaces with PIDKiln preferences.
+** Static, editable parameters. Some of them, can be replaces with ESP32Kiln preferences.
 ** Please set them up before uploading.
 */
-#define TEMPLATE_PLACEHOLDER '~' // THIS DOESN'T WORK NOW FROM HERE - replace it in library! Arduino/libraries/ESPAsyncWebServer/src/WebResponseImpl.h
 
 // If you have Wrover with PSRAM
-#define MALLOC ps_malloc
-#define REALLOC ps_realloc
+//#define MALLOC ps_malloc
+//#define REALLOC ps_realloc
 
 // if you have Wroom without it
-//#define MALLOC malloc
-//#define REALLOC realloc
+#define MALLOC malloc
+#define REALLOC realloc
 
 #define DEBUG true
 //#define DEBUG false
@@ -132,7 +134,7 @@ void setup() {
   // Load all preferences from disk
   Load_prefs();
   
-  // Setup function for LCD display from PIDKiln_LCD.ino
+  // Setup function for LCD display from ESP32Kiln_LCD.ino
   Setup_LCD();
 
   // Setup input devices
@@ -156,10 +158,13 @@ void setup() {
       
       sprintf(msg," IP: %s",lips.toString().c_str());
       load_msg(msg);
+
+      // Setup OTA
+      setup_OTA("ESP32Kiln");
     }
   }else{
     // If we don't have Internet - assume there is no time set
-    Setup_start_date(); // in PIDKiln_net
+    Setup_start_date(); // in ESP32Kiln_net
     Disable_WiFi();
     strcpy(msg,"   -- Started! --");
     load_msg(msg);

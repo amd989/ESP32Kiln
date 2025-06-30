@@ -1,333 +1,506 @@
 <!DOCTYPE html>
-<html lang="en"> 
+<html lang="en">
+
 <head>
- <title>PIDKiln Preferences</title>
- <link rel="stylesheet" href="css/main.css">
- <link rel="stylesheet" href="css/nav.css">
- <script type="text/javascript" src="js/nav.js"></script>
- <script type="text/javascript" src="js/programs.js"></script>
- <meta name="viewport" content="width=device-width, initial-scale=1">
- <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+      <title>ESP32Kiln Preferences</title>
+      <script type="text/javascript" src="/js/jquery-3.5.1.min.js"></script>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
+      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+      <link href="css/esp32kiln-theme.css" rel="stylesheet">
+      <script type="text/javascript" src="js/nav.js"></script>
+      <script type="text/javascript" src="js/programs.js"></script>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+      <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♨️</text></svg>">
 </head>
+
 <body>
+      <nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm">
+            <div class="container-fluid">
+                  <a class="navbar-brand" href="#">ESP32Kiln </a>
+                  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                  </button>
+                  <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                              <li class="nav-item">
+                                    <a class="nav-link" href="/index.html"><i class="bi bi-house-door me-1"></i>Home</a>
+                              </li>
+                              <li class="nav-item">
+                                    <a class="nav-link" href="/programs/index.html"><i class="bi bi-graph-up me-1"></i>Profiles</a>
+                              </li>
+                              <li class="nav-item">
+                                    <a class="nav-link" href="/logs/index.html"><i class="bi bi-file-text me-1"></i>Logs</a>
+                              </li>
+                              <li class="nav-item">
+                                    <a class="nav-link active" href="/preferences.html"><i class="bi bi-gear me-1"></i>Preferences</a>
+                              </li>
+                              <li class="nav-item">
+                                    <a class="nav-link" href="/about.html"><i class="bi bi-info-circle me-1"></i>About</a>
+                              </li>
+                              <li class="nav-item">
+                                    <a class="nav-link" href="/debug_board.html"><i class="bi bi-bug me-1"></i>Debug ESP</a>
+                              </li>
+                              <li class="nav-item">
+                                    <a class="nav-link" href="/flash_firmware.html"><i class="bi bi-upload me-1"></i>Flash firmware</a>
+                              </li>
+                        </ul>
+                        <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
+                              <li class="nav-item dropdown">
+                                    <button
+                                          class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center"
+                                          id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown"
+                                          data-bs-display="static" aria-label="Toggle theme (auto)">
+                                          <i class="bi my-1 theme-icon-active bi-circle-half"></i>
+                                          <span class="d-lg-none ms-2" id="bd-theme-text">Toggle theme</span>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme-text">
+                                          <li>
+                                                <button type="button" class="dropdown-item d-flex align-items-center"
+                                                      data-bs-theme-value="light" aria-pressed="false">
+                                                      <i class="bi me-2 opacity-50 bi-sun-fill"></i>
+                                                      Light
+                                                      <i class="bi ms-auto d-none bi-check2"></i>
+                                                </button>
+                                          </li>
+                                          <li>
+                                                <button type="button" class="dropdown-item d-flex align-items-center"
+                                                      data-bs-theme-value="dark" aria-pressed="false">
+                                                      <i class="bi me-2 opacity-50 bi-moon-stars-fill"></i>
+                                                      Dark
+                                                      <i class="bi ms-auto d-none bi-check2"></i>
+                                                </button>
+                                          </li>
+                                          <li>
+                                                <button type="button"
+                                                      class="dropdown-item d-flex align-items-center active"
+                                                      data-bs-theme-value="auto" aria-pressed="true">
+                                                      <i class="bi me-2 opacity-50 bi-circle-half"></i>
+                                                      Auto
+                                                      <i class="bi ms-auto d-none bi-check2"></i>
+                                                </button>
+                                          </li>
+                                    </ul>
+                              </li>
+                        </ul>
+                  </div>
+            </div>
+      </nav>
 
- <div class="topnav" id="myTopnav">
-  <a href="/index.html">Main view</a>
-  <a href="/programs/index.html">Manage programs</a>
-  <a href="/logs/index.html">Logs</a>
-  <a href="/preferences.html" class="active">Preferences</a>
-  <a href="/about.html">About</a>
-  <a href="/debug_board.html">Debug ESP</a>
-  <a href="/flash_firmware.html">Flash firmware</a>
-  <a href="javascript:void(0);" class="icon" onclick="switch_nav()">
-    <img src="icons/menu.png" alt="...">
-  </a>
- </div>
+      <div class="container mt-4">
+            <nav aria-label="breadcrumb">
+                  <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/index.html"><i class="bi bi-house-door me-1"></i>Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page"><i class="bi bi-gear me-1"></i>Preferences</li>
+                  </ol>
+            </nav>
+            %ERRORS%
+            <form method="post" action="preferences.html">
+                  <fieldset class="border p-4">
+                        <legend class="w-auto px-2"><i class="bi bi-wifi section-icon"></i>WiFi Configuration</legend>
+                        <div class="mb-3 row">
+                              <label for="WiFi_SSID" class="col-sm-3 col-form-label"> WiFi access point SSID </label>
+                              <div class="col-sm-9">
+                                    <input type="text" class="form-control" name="WiFi_SSID" value="%WiFi_SSID%"
+                                          title="Name of your WiFi network, that ESP32Kiln should connect to">
+                              </div>
+                        </div>
+                        <div class="mb-3 row">
+                              <label for="WiFi_Password" class="col-sm-3 col-form-label"> WiFi AP password </label>
+                              <div class="col-sm-9">
+                                    <div class="input-group">
+                                          <input type="password" class="form-control" id="WiFi_Password"
+                                                name="WiFi_Password" value="%WiFi_Password%"
+                                                title="Password for WiFi network">
+                                          <button class="btn btn-outline-secondary" type="button"
+                                                id="WiFi_Password_toggler" onclick="toggle_password(WiFi_Password)">
+                                                <i class="bi bi-eye-slash" id="togglePassword"
+                                                      alt="Toggle Password"></i>
+                                          </button>
+                                    </div>
+                              </div>
+                        </div>
+                        <div class="mb-3 row">
+                              <label for="WiFi_Mode" class="col-sm-3 col-form-label"> WiFi Mode </label>
+                              <div class="col-sm-9">
+                                    <div class="form-check">
+                                          <input class="form-check-input" type="radio" name="WiFi_Mode" value="0"
+                                                %WiFi_Mode0%>
+                                          <label class="form-check-label"> 0 - no WiFi </label>
+                                    </div>
+                                    <div class="form-check">
+                                          <input class="form-check-input" type="radio" name="WiFi_Mode" value="1"
+                                                %WiFi_Mode1%>
+                                          <label class="form-check-label"> 1 - connect to AP - if failed, be AP
+                                                (default) </label>
+                                    </div>
+                                    <div class="form-check">
+                                          <input class="form-check-input" type="radio" name="WiFi_Mode" value="2"
+                                                %WiFi_Mode2%>
+                                          <label class="form-check-label"> 2 - connect only to AP </label>
+                                    </div>
+                                    <div class="form-check">
+                                          <input class="form-check-input" type="radio" name="WiFi_Mode" value="3"
+                                                %WiFi_Mode3%>
+                                          <label class="form-check-label"> 3 - be only AP </label>
+                                    </div>
+                              </div>
+                        </div>
+                        <div class="mb-3 row">
+                              <label for="WiFi_Retry_cnt" class="col-sm-3 col-form-label"> WiFi connection timeout
+                                    <br><sup>(0 - unlimited)</sup> </label>
+                              <div class="col-sm-9">
+                                    <div class="input-group">
+                                          <input type="number" class="form-control" name="WiFi_Retry_cnt"
+                                                value="%WiFi_Retry_cnt%" min="0" max="254"
+                                                title="How many times retry connecting to WiFi (once per second)">
+                                          <span class="input-group-text"> seconds</span>
+                                    </div>
+                              </div>
+                        </div>
+                  </fieldset>
 
- <div class="container">
-  ~ERRORS~
-  <form method="post" action="preferences.html">
-   <fieldset>
-    <legend> WiFi configuration </legend>
-     <div class="row">
-      <div class="col-25">
-	<label for="WiFi_SSID"> WiFi access point SSID </label>
-      </div>
-      <div class="col-75">
-	<input type="text" name="WiFi_SSID" value="~WiFi_SSID~" width="20" title="Name of your WiFi network, that PIDKiln should connect to">
-      </div>
-     </div>
-     <div class="row">
-      <div class="col-25">
-	<label for="WiFi_Password"> WiFi AP password </label>
-      </div>
-      <div class="col-75">
-       <div style="display: inline-block;">
-	<input type="password" id="WiFi_Password" name="WiFi_Password" value="~WiFi_Password~" width="20" title="Password for WiFi network">
-	<img id="WiFi_Password_toggler" class="field-icon toggle-password" src="icons/eyec.png" onclick="toggle_password(WiFi_Password)">
-       </div>
-      </div>
-     </div>
-     <div class="row">
-      <div class="col-25">
-	<label for="WiFi_Mode"> WiFi Mode </label>
-      </div>
-      <div class="col-75">
-	<input type="radio" name="WiFi_Mode" value="0" ~WiFi_Mode0~> 0 - no WiFi<br>
-	<input type="radio" name="WiFi_Mode" value="1" ~WiFi_Mode1~> 1 - connect to AP - if failed, be AP (default)<br>
-	<input type="radio" name="WiFi_Mode" value="2" ~WiFi_Mode2~> 2 - connect only to AP<br>
-	<input type="radio" name="WiFi_Mode" value="3" ~WiFi_Mode3~> 3 - be only AP<br>
-      </div>
-     </div>
-     <div class="row">
-      <div class="col-25">
-	<label for="WiFi_Retry_cnt"> WiFi connection timeout <br><sup>(0 - unlimited)</sup> </label>
-      </div>
-      <div class="col-75">
-	<input type="number" name="WiFi_Retry_cnt" value="~WiFi_Retry_cnt~" min="0" max="254" title="How many times retry connecting to WiFi (once per second)"> seconds
-      </div>
-     </div>
-   </fieldset>
+                  <fieldset class="border p-4">
+                        <legend class="w-auto px-2"><i class="bi bi-globe section-icon"></i>HTTP Server Configuration</legend>
+                        <div class="mb-3 row">
+                              <label for="Auth_Username" class="col-sm-3 col-form-label"> Auth Username </label>
+                              <div class="col-sm-9">
+                                    <input type="text" class="form-control" name="Auth_Username" value="%Auth_Username%"
+                                          title="Username for your ESP32Kiln authentication">
+                              </div>
+                        </div>
+                        <div class="mb-3 row">
+                              <label for="Auth_Password" class="col-sm-3 col-form-label"> Auth Password </label>
+                              <div class="col-sm-9">
+                                    <div class="input-group">
+                                          <input type="password" class="form-control" id="Auth_Password"
+                                                name="Auth_Password" value="%Auth_Password%">
+                                          <button class="btn btn-outline-secondary" type="button"
+                                                id="Auth_Password_toggler" onclick="toggle_password(Auth_Password)">
+                                                <i class="bi bi-eye-slash" id="togglePassword"
+                                                      alt="Toggle Password"></i>
+                                          </button>
+                                    </div>
+                              </div>
+                        </div>
+                        <div class="mb-3 row">
+                              <label for="HTTP_Local_JS" class="col-sm-3 col-form-label"> Send large JS from local
+                                    server<br>(change requires restart) </label>
+                              <div class="col-sm-9">
+                                    <div class="form-check">
+                                          <input class="form-check-input" type="radio" name="HTTP_Local_JS" value="0"
+                                                %HTTP_Local_JS0%
+                                                title="Should large JS files be fetched from Internet or directly from ESP32">
+                                          <label class="form-check-label"> Redirect to Internet sources (recommended)
+                                          </label>
+                                    </div>
+                                    <div class="form-check">
+                                          <input class="form-check-input" type="radio" name="HTTP_Local_JS" value="1"
+                                                %HTTP_Local_JS1%>
+                                          <label class="form-check-label"> Send from local HTTP server </label>
+                                    </div>
+                              </div>
+                        </div>
+                  </fieldset>
 
-   <fieldset>
-    <legend> HTTP server configuration </legend>
-     <div class="row">
-      <div class="col-25">
-	<label for="Auth_Username"> Auth Username </label>
-      </div>
-      <div class="col-75">
-	<input type="text" name="Auth_Username" value="~Auth_Username~" width="20" title="Username form your PIDKiln authentication">
-      </div>
-     </div>
-     <div class="row">
-      <div class="col-25">
-	<label for="Auth_Password"> Auth Password </label>
-      </div>
-      <div class="col-75">
-       <div style="display: inline-block;">
-	<input type="password" id="Auth_Password" name="Auth_Password" value="~Auth_Password~" width="20">
-	<img id="Auth_Password_toggler" class="field-icon toggle-password" src="icons/eyec.png" onclick="toggle_password(Auth_Password)" title="Password used with above username">
-       </div>
-      </div>
-     </div>
-     <div class="row">
-      <div class="col-25">
-	<label for="HTTP_Local_JS"> Send large JS from local server<br>(change requires restart) </label>
-      </div>
-      <div class="col-75">
-	<input type="radio" name="HTTP_Local_JS" value="0" ~HTTP_Local_JS0~ title="Should large JS files be fetched from Internet or directly from ESP32"> Redirect to Internet sources (recommended) <br>
-	<input type="radio" name="HTTP_Local_JS" value="1" ~HTTP_Local_JS1~> Send from local HTTP server <br>
-      </div>
-     </div>
-   </fieldset>
+                  <fieldset class="border p-4">
+                        <legend class="w-auto px-2"><i class="bi bi-clock section-icon"></i>Time Configuration</legend>
+                        <div class="mb-3 row">
+                              <label for="NTP_Server1" class="col-sm-3 col-form-label"> NTP Server1 </label>
+                              <div class="col-sm-9">
+                                    <input type="text" class="form-control" name="NTP_Server1" value="%NTP_Server1%"
+                                          title="IP of the NTP server to synchronize time">
+                              </div>
+                        </div>
+                        <div class="mb-3 row">
+                              <label for="NTP_Server2" class="col-sm-3 col-form-label"> NTP Server2 </label>
+                              <div class="col-sm-9">
+                                    <input type="text" class="form-control" name="NTP_Server2" value="%NTP_Server2%"
+                                          title="IP of the NTP server to synchronize time">
+                              </div>
+                        </div>
+                        <div class="mb-3 row">
+                              <label for="NTP_Server3" class="col-sm-3 col-form-label"> NTP Server3 </label>
+                              <div class="col-sm-9">
+                                    <input type="text" class="form-control" name="NTP_Server3" value="%NTP_Server3%"
+                                          title="IP of the NTP server to synchronize time">
+                              </div>
+                        </div>
+                        <div class="mb-3 row">
+                              <label for="GMT_Offset_sec" class="col-sm-3 col-form-label"> Difference (in seconds) from
+                                    GMT time </label>
+                              <div class="col-sm-9">
+                                    <input type="number" class="form-control" name="GMT_Offset_sec" min="-39600"
+                                          max="50400" value="%GMT_Offset_sec%"
+                                          title="Difference between your timezone and GMT in seconds">
+                              </div>
+                        </div>
+                        <div class="mb-3 row">
+                              <label for="Daylight_Offset_sec" class="col-sm-3 col-form-label"> Daylight Saving Time
+                                    difference (in seconds) </label>
+                              <div class="col-sm-9">
+                                    <input type="number" class="form-control" name="Daylight_Offset_sec" min="-3600"
+                                          max="3600" value="%Daylight_Offset_sec%">
+                              </div>
+                        </div>
+                        <div class="mb-3 row">
+                              <label for="Initial_Date" class="col-sm-3 col-form-label"> Initial date - if no NTP
+                              </label>
+                              <div class="col-sm-9">
+                                    <input type="date" class="form-control" name="Initial_Date" value="%Initial_Date%"
+                                          title="What date should be assumed after boot, if no Internet and NTP servers">
+                              </div>
+                        </div>
+                        <div class="mb-3 row">
+                              <label for="Initial_Time" class="col-sm-3 col-form-label"> Initial time - if no NTP
+                              </label>
+                              <div class="col-sm-9">
+                                    <input type="time" class="form-control" name="Initial_Time" value="%Initial_Time%"
+                                          step="1"
+                                          title="What time should be assumed after boot, if no Internet and NTP servers">
+                              </div>
+                        </div>
+                  </fieldset>
 
-   <fieldset>
-    <legend> Time configuration </legend>
-     <div class="row">
-      <div class="col-25">
-	<label for="NTP_Server1"> NTP Server1 </label>
-      </div>
-      <div class="col-75">
-	<input type="text" name="NTP_Server1" value="~NTP_Server1~" title="IP of the NTP server to synchronize time">
-      </div>
-     </div>
-     <div class="row">
-      <div class="col-25">
-	<label for="NTP_Server1"> NTP Server2 </label>
-      </div>
-      <div class="col-75">
-	<input type="text" name="NTP_Server2" value="~NTP_Server2~" title="IP of the NTP server to synchronize time">
-      </div>
-     </div>
-     <div class="row">
-      <div class="col-25">
-	<label for="NTP_Server1"> NTP Server3 </label>
-      </div>
-      <div class="col-75">
-	<input type="text" name="NTP_Server3" value="~NTP_Server3~" title="IP of the NTP server to synchronize time">
-      </div>
-     </div>
-     <div class="row">
-      <div class="col-25">
-	<label for="GMT_Offset_sec"> Difference (in seconds) from GMT time </label>
-      </div>
-      <div class="col-75">
-	<input type="number" name="GMT_Offset_sec" min="-39600" max="50400" value="~GMT_Offset_sec~" title="Difference between your timezone and GMT in seconds">
-      </div>
-     </div>
-     <div class="row">
-      <div class="col-25">
-	<label for="Daylight_Offset_sec"> Daylight Saving Time difference (in seconds) </label>
-      </div>
-      <div class="col-75">
-	<input type="number" name="Daylight_Offset_sec" min="-3600" max="3600" value="~Daylight_Offset_sec~">
-      </div>
-     </div>
-     <div class="row">
-      <div class="col-25">
-	<label for="Initial_Date"> Initial date - if no NTP </label>
-      </div>
-      <div class="col-75">
-	<input type="date" name="Initial_Date" value="~Initial_Date~" title="What date should be assumed after boot, if no Internet and NTP servers">
-      </div>
-     </div>
-     <div class="row">
-      <div class="col-25">
-	<label for="Initial_Time"> Initial time - if no NTP </label>
-      </div>
-      <div class="col-75">
-	<input type="time" name="Initial_Time" value="~Initial_Time~" step="1" title="What time should be assumed after boot, if no Internet and NTP servers">
-      </div>
-     </div>
-   </fieldset>
+                  <fieldset class="border p-4">
+                        <legend class="w-auto px-2"><i class="bi bi-graph-up section-icon"></i>Program Configuration</legend>
 
-   <fieldset>
-    <legend> Program configuration </legend>
-     <div class="row">
-      <div class="col-25">
-	<label for="PID_Window"> PID Window size (ms) </label>
-      </div>
-      <div class="col-75">
-	<input type="number" name="PID_Window" min="1" max="9999" value="~PID_Window~" size="5" title="Time window used to recalculate PID parameters">ms
-      </div>
-     </div>
-     <div class="row">
-      <div class="col-25">
-	<label for="PID_Kp"> PID Kp (Proportional) </label>
-      </div>
-      <div class="col-75">
-	<input type="number" name="PID_Kp" min="0" max="999" step="0.1" value="~PID_Kp~" size="4">
-      </div>
-     </div>
-     <div class="row">
-      <div class="col-25">
-	<label for="PID_Ki"> PID Ki (Integral) </label>
-      </div>
-      <div class="col-75">
-	<input type="number" name="PID_Ki" min="0" max="999" step="0.1" value="~PID_Ki~" size="4">
-      </div>
-     </div>
-     <div class="row">
-      <div class="col-25">
-	<label for="PID_Kd"> PID Kd (Derivative) </label>
-      </div>
-      <div class="col-75">
-	<input type="number" name="PID_Kd" min="0" max="999" step="0.1" value="~PID_Kd~" size="4">
-      </div>
-     </div>
-     <div class="row">
-      <div class="col-25">
-	<label for="PID_POE">  Proportional on Measurement or Error </label>
-      </div>
-      <div class="col-75">
-	<input type="radio" name="PID_POE" value="0" ~PID_POE0~> Proportional on Measurement <br>
-	<input type="radio" name="PID_POE" value="1" ~PID_POE1~> Proportional on Error <br>
-      </div>
-     </div>
-     <div class="row">
-      <div class="col-25">
-	<label for="PID_Temp_Threshold"> Temperature threshold </label>
-      </div>
-      <div class="col-75">
-	<input type="number" name="PID_Temp_Threshold" min="-1" max="1350" step="1" value="~PID_Temp_Threshold~" title="If set, and Set temperature is different from Current temperature _that much_ - controller will wait until threshold is reached">
-      </div>
-     </div>
-     <div class="row">
-      <div class="col-25">
-	<label for="LOG_Window"> Program logging window </label>
-      </div>
-      <div class="col-75">
-	<input type="number" name="LOG_Window" min="0" max="3600" step="1" value="~LOG_Window~" title="How often, during program run, PIDKiln should log current status to csv file">s
-      </div>
-     </div>
-     <div class="row">
-      <div class="col-25">
-	<label for="LOG_Files_Limit"> Program log files limit </label>
-      </div>
-      <div class="col-75">
-	<input type="number" name="LOG_Files_Limit" min="0" max="3600" step="1" value="~LOG_Files_Limit~" title="How many log files should be keep on drive">
-      </div>
-     </div>
-   </fieldset>
+                        <div class="mb-3">
+                              <label for="LOG_Window" class="col-sm-3 col-form-label"> Program logging window </label>
+                              <div class="input-group">
+                                    <input type="number" class="form-control" name="LOG_Window" min="0" max="3600"
+                                          step="1" value="%LOG_Window%"
+                                          title="How often, during program run, ESP32Kiln should log current status to csv file">
+                                    <span class="input-group-text">s</span>
+                              </div>
+                        </div>
+                        <div class="mb-3 row">
+                              <label for="LOG_Files_Limit" class="col-sm-3 col-form-label"> Program log files limit
+                              </label>
+                              <div class="col-sm-9">
+                                    <input type="number" class="form-control" name="LOG_Files_Limit" min="0" max="3600"
+                                          step="1" value="%LOG_Files_Limit%"
+                                          title="How many log files should be keep on drive">
+                              </div>
+                        </div>
+                  </fieldset>
 
-   <fieldset>
-    <legend> Safety features </legend>
-     <div class="row">
-      <div class="col-25">
-	<label for="MIN_Temperature"> Minimal temperature </label>
-      </div>
-      <div class="col-75">
-	<input type="number" name="MIN_Temperature" min="0" max="50" value="~MIN_Temperature~" size="4" title="Minimal reasonable temperature that can be registered. If below - assume failure">&#176;C
-      </div>
-     </div>
-     <div class="row">
-      <div class="col-25">
-	<label for="MAX_Temperature"> Maximum temperature </label>
-      </div>
-      <div class="col-75">
-	<input type="number" name="MAX_Temperature" min="51" max="1350" value="~MAX_Temperature~" size="4" title="Maximum reasonable temperature that can be registered. If above - assume failure">&#176;C
-      </div>
-     </div>
-     <div class="row">
-      <div class="col-25">
-	<label for="MAX_Housing_Temperature"> Maximum housing temperature </label>
-      </div>
-      <div class="col-75">
-	<input type="number" name="MAX_Housing_Temperature" min="10" max="250" value="~MAX_Housing_Temperature~" size="4" title="Maximum allowed housing temperature in normal condition, if above, assume insulation failure">&#176;C
-      </div>
-     </div>
-     <div class="row">
-      <div class="col-25">
-	<label for="Alarm_Timeout"> Alarm timeout </label>
-      </div>
-      <div class="col-75">
-	<input type="number" name="Alarm_Timeout" min="0" max="3600" value="~Alarm_Timeout~" size="4" title="How many seconds alarm should be on after program ends or error">s
-      </div>
-     </div>
-     <div class="row">
-      <div class="col-25">
-	<label for="MAX31855_Error_Grace_Count"> MAX31855 error grace count </label>
-      </div>
-      <div class="col-75">
-	<input type="number" name="MAX31855_Error_Grace_Count" min="0" max="250" value="~MAX31855_Error_Grace_Count~" size="4" title="How many failed sensor readings, in a row, we can tolerate without aborting">
-      </div>
-     </div>
-   </fieldset>
+                  <fieldset class="border p-4">
+                        <legend class="w-auto px-2"><i class="bi bi-speedometer2 section-icon"></i>PID Configuration</legend>
+                        <div class="mb-3 row">
+                              <label for="PID_Algorithm" class="col-sm-3 col-form-label"> PID Algorithm </label>
+                              <div class="col-sm-6">
+                                    <select id="PID_Algorithm" class="form-select" value="%PID_Algorithm%">
+                                          <option value="0">ZIEGLER_NICHOLS_PI</option>
+                                          <option value="1">ZIEGLER_NICHOLS_PID</option>
+                                          <option value="2">TYREUS_LUYBEN_PI</option>
+                                          <option value="3">TYREUS_LUYBEN_PID</option>
+                                          <option value="4">CIANCONE_MARLIN_PI</option>
+                                          <option value="5">CIANCONE_MARLIN_PID</option>
+                                          <option value="6">AMIGOF_PI</option>
+                                          <option value="7">PESSEN_INTEGRAL_PID</option>
+                                          <option value="8">SOME_OVERSHOOT_PID</option>
+                                          <option value="9">NO_OVERSHOOT_PID</option>
+                                    </select>                                
+                              </div>
+                              <div class="col-sm-3">
+                                    <input type="submit" name="pidauto" value="Auto PID"
+                                          class="btn btn-outline-secondary" title="Automatically Calculate PID Values">
+                              </div>
+                        </div>
+                        <div class="mb-3 row">
+                              <label for="PID_Window" class="col-sm-3 col-form-label"> PID Window size (ms) </label>
+                              <div class="col-sm-9">
+                                    <div class="input-group ">
+                                          <input type="number" name="PID_Window" class="form-control" min="1" max="9999"
+                                                value="%PID_Window%"
+                                                title="Time window used to recalculate PID parameters">
+                                          <span class="input-group-text"> ms</span>
+                                    </div>
+                              </div>
+                        </div>
+                        <div class="mb-3 row">
+                              <label for="PID_Measure_Interval" class="col-sm-3 col-form-label"> PID Window size (ms) </label>
+                              <div class="col-sm-9">
+                                    <div class="input-group ">
+                                          <input type="number" name="PID_Measure_Interval" class="form-control" min="1" max="9999"
+                                                value="%PID_Measure_Interval%"
+                                                title="Time window used to recalculate PID parameters">
+                                          <span class="input-group-text"> ms</span>
+                                    </div>
+                              </div>
+                        </div>
+                        <div class="mb-3 row">
+                              <label for="PID_Kp" class="col-sm-3 col-form-label"> PID Kp (Proportional) </label>
+                              <div class="col-sm-9">
+                                    <input type="number" name="PID_Kp" class="form-control" min="0" max="999" step="0.1"
+                                          value="%PID_Kp%">
+                              </div>
+                        </div>
+                        <div class="mb-3 row">
+                              <label for="PID_Ki" class="col-sm-3 col-form-label"> PID Ki (Integral) </label>
+                              <div class="col-sm-9">
+                                    <input type="number" name="PID_Ki" class="form-control" min="0" max="999" step="0.1"
+                                          value="%PID_Ki%">
+                              </div>
+                        </div>
+                        <div class="mb-3 row">
+                              <label for="PID_Kd" class="col-sm-3 col-form-label"> PID Kd (Derivative) </label>
+                              <div class="col-sm-9">
+                                    <input type="number" name="PID_Kd" class="form-control" min="0" max="999" step="0.1"
+                                          value="%PID_Kd%">
+                              </div>
+                        </div>
+                        <div class="mb-3 row">
+                              <label for="PID_POE" class="col-sm-3 col-form-label"> Proportional on Measurement or Error
+                              </label>
+                              <div class="col-sm-9">
+                                    <div class="form-check">
+                                          <input class="form-check-input" type="radio" name="PID_POE" value="0"
+                                                %PID_POE0%>
+                                          <label class="form-check-label"> Proportional on Measurement </label>
+                                    </div>
+                                    <div class="form-check">
+                                          <input class="form-check-input" type="radio" name="PID_POE" value="1"
+                                                %PID_POE1%>
+                                          <label class="form-check-label"> Proportional on Error </label>
+                                    </div>
+                              </div>
+                        </div>
+                        <div class="mb-3 row">
+                              <label for="PID_Temp_Threshold" class="col-sm-3 col-form-label"> Temperature threshold
+                              </label>
+                              <div class="col-sm-9">
+                                    <input type="number" name="PID_Temp_Threshold" class="form-control" min="-1"
+                                          max="1350" step="1" value="%PID_Temp_Threshold%"
+                                          title="If set, and Set temperature is different from Current temperature _that much_ - controller will wait until threshold is reached">
+                              </div>
+                        </div>
+                  </fieldset>
 
-   <fieldset>
-    <legend> Monitoring </legend>
-     <div class="row">
-      <div class="col-25">
-	<label for="DBG_Serial"> Use serial console output </label>
-      </div>
-      <div class="col-75">
-	<select name="DBG_Serial" size="1" title="Should we output monitoring to serial console?">
-	  <option value="0" ~DBG_Serial0~> no </option>
-	  <option value="1" ~DBG_Serial1~> yes </option>
-	</select>
-      </div>
-     </div>
-     <div class="row">
-      <div class="col-25">
-	<label for="DBG_Syslog"> Use remote Syslog output </label>
-      </div>
-      <div class="col-75">
-	<select name="DBG_Syslog" size="1" title="Should we output monitoring to remote syslog server?">
-	  <option value="0" ~DBG_Syslog0~> no </option>
-	  <option value="1" ~DBG_Syslog1~> yes </option>
-	</select>
-      </div>
-     </div>
-     <div class="row">
-      <div class="col-25">
-	<label for="DBG_Syslog_Srv"> Syslog host IP </label>
-      </div>
-      <div class="col-75">
-	<input type="text" name="DBG_Syslog_Srv" value="~DBG_Syslog_Srv~" title="IP of the syslog server">
-      </div>
-     </div>
-     <div class="row">
-      <div class="col-25">
-	<label for="DBG_Syslog_Port"> Syslog UDP port </label>
-      </div>
-      <div class="col-75">
-	<input type="number" name="DBG_Syslog_Port" min="1" max="49151" value="~DBG_Syslog_Port~" size="5" placeholder="514" title="Port number for syslog service on remote host">
-      </div>
-     </div>
-   </fieldset>
 
-    <div class="row">
-      <div class="col-25">
-	<input type="submit" name="update" value="Remember changes" title="For this session only"><br>
+                  <fieldset class="border p-4">
+                        <legend class="w-auto px-2"><i class="bi bi-shield-check section-icon"></i>Safety Features</legend>
+                        <div class="mb-3 row">
+                              <label for="MIN_Temperature" class="col-sm-3 col-form-label"> Minimal temperature </label>
+                              <div class="col-sm-9">
+                                    <div class="input-group">
+                                          <input type="number" class="form-control" name="MIN_Temperature" min="0"
+                                                max="50" value="%MIN_Temperature%"
+                                                title="Minimal reasonable temperature that can be registered. If below - assume failure">
+                                          <span class="input-group-text">°C</span>
+                                    </div>
+                              </div>
+                        </div>
+                        <div class="mb-3 row">
+                              <label for="MAX_Temperature" class="col-sm-3 col-form-label"> Maximum temperature </label>
+                              <div class="col-sm-9">
+                                    <div class="input-group">
+                                          <input type="number" class="form-control" name="MAX_Temperature" min="51"
+                                                max="1350" value="%MAX_Temperature%"
+                                                title="Maximum reasonable temperature that can be registered. If above - assume failure">
+                                          <span class="input-group-text">°C</span>
+                                    </div>
+                              </div>
+                        </div>
+                        <div class="mb-3 row">
+                              <label for="MAX_Housing_Temperature" class="col-sm-3 col-form-label"> Maximum housing
+                                    temperature </label>
+                              <div class="col-sm-9">
+                                    <div class="input-group">
+                                          <input type="number" class="form-control" name="MAX_Housing_Temperature"
+                                                min="10" max="250" value="%MAX_Housing_Temperature%"
+                                                title="Maximum allowed housing temperature in normal condition, if above, assume insulation failure">
+                                          <span class="input-group-text">°C</span>
+                                    </div>
+                              </div>
+                        </div>
+                        <div class="mb-3 row">
+                              <label for="Alarm_Timeout" class="col-sm-3 col-form-label"> Alarm timeout </label>
+                              <div class="col-sm-9">
+                                    <div class="input-group">
+                                          <input type="number" class="form-control" name="Alarm_Timeout" min="0"
+                                                max="3600" value="%Alarm_Timeout%"
+                                                title="How many seconds alarm should be on after program ends or error">
+                                          <span class="input-group-text">seconds</span>
+                                    </div>
+                              </div>
+                        </div>
+                        <div class="mb-3 row">
+                              <label for="MAX31855_Error_Grace_Count" class="col-sm-3 col-form-label"> MAX31855 error
+                                    grace count </label>
+                              <div class="col-sm-9">
+                                    <input type="number" class="form-control" name="MAX31855_Error_Grace_Count" min="0"
+                                          max="250" value="%MAX31855_Error_Grace_Count%"
+                                          title="How many failed sensor readings, in a row, we can tolerate without aborting">
+                              </div>
+                        </div>
+                  </fieldset>
+
+                  <fieldset class="border p-4">
+                        <legend class="w-auto px-2"><i class="bi bi-activity section-icon"></i>Monitoring</legend>
+                        <div class="mb-3 row">
+                              <label for="DBG_Serial" class="col-sm-3 col-form-label"> Use serial console output
+                              </label>
+                              <div class="col-sm-9">
+                                    <select class="form-select" name="DBG_Serial"
+                                          title="Should we output monitoring to serial console?">
+                                          <option value="0" %DBG_Serial0%> no </option>
+                                          <option value="1" %DBG_Serial1%> yes </option>
+                                    </select>
+                              </div>
+                        </div>
+                        <div class="mb-3 row">
+                              <label for="DBG_Syslog" class="col-sm-3 col-form-label"> Use remote Syslog output </label>
+                              <div class="col-sm-9">
+                                    <select class="form-select" name="DBG_Syslog"
+                                          title="Should we output monitoring to remote syslog server?">
+                                          <option value="0" %DBG_Syslog0%> no </option>
+                                          <option value="1" %DBG_Syslog1%> yes </option>
+                                    </select>
+                              </div>
+                        </div>
+                        <div class="mb-3 row">
+                              <label for="DBG_Syslog_Srv" class="col-sm-3 col-form-label"> Syslog host IP </label>
+                              <div class="col-sm-9">
+                                    <input type="text" class="form-control" name="DBG_Syslog_Srv"
+                                          value="%DBG_Syslog_Srv%" title="IP of the syslog server">
+                              </div>
+                        </div>
+                        <div class="mb-3 row">
+                              <label for="DBG_Syslog_Port" class="col-sm-3 col-form-label"> Syslog UDP port </label>
+                              <div class="col-sm-9">
+                                    <input type="number" class="form-control" name="DBG_Syslog_Port" min="1" max="49151"
+                                          value="%DBG_Syslog_Port%" placeholder="514"
+                                          title="Port number for syslog service on remote host">
+                              </div>
+                        </div>
+                  </fieldset>
+
+                  <div class="row mb-4">
+                        <div class="col-md-6">
+                              <button type="submit" class="btn btn-outline-primary w-100" name="update" title="For this session only">
+                                    <i class="bi bi-memory me-2"></i>Remember Changes
+                              </button>
+                        </div>
+                        <div class="col-md-6">
+                              <button type="submit" class="btn btn-success w-100" name="save" title="Write it on disk">
+                                    <i class="bi bi-save me-2"></i>Save Preferences
+                              </button>
+                        </div>
+                  </div>
+            </form>
       </div>
-      <div class="col-75">
-	<input class="floatr" type="submit" name="save" value="Save preferences" title="Write it on disk">
-      </div>
-    </div>
-  </form>
- </div>
- <div>You can also <a href="/etc/pidkiln.conf" target="_blank">download</a> current /etc/pidkiln.conf file.</div>
-<br>
+      <div>You can also <a href="/etc/pidkiln.conf" target="_blank">download</a> current /etc/pidkiln.conf file.</div>
+      <br>
+
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
 
 </body>
+
 </html>

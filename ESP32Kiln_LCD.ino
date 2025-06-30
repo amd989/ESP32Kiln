@@ -27,7 +27,7 @@
 
 // You can switch hardware or software SPI interface to LCD. HW can be up to x10 faster - but requires special pins (and has some errors for me on 5V).
 //U8G2_ST7920_128X64_F_SW_SPI u8g2(U8G2_R2, /* clock=*/ LCD_CLOCK, /* data=*/ LCD_DATA, /* CS=*/ LCD_CS, /* reset=*/ LCD_RESET);
-U8G2_ST7920_128X64_F_HW_SPI u8g2(U8G2_R2, /* CS=*/ LCD_CS, /* reset=*/ LCD_RESET);
+U8G2_ST7920_128X64_F_HW_SPI u8g2(U8G2_R0, /* CS=*/ LCD_CS, /* reset=*/ LCD_RESET);
 
 
 /*
@@ -132,7 +132,7 @@ char rest[MAX_CHARS_PL];
 **
 */
 
-// Third main view - operations (start,pause,stop)
+// Third Home - operations (start,pause,stop)
 //
 void LCD_display_mainv3(int dir=0, byte ctrl=0){
 char msg[MAX_CHARS_PL];
@@ -205,7 +205,7 @@ static int what=0;
 }
 
 
-// Second main view - program graph
+// Second Home - program graph
 //
 void LCD_display_mainv2(){
 uint16_t ttime=0,mxtemp=0,mxx=0,mxy=0,x,y,oldx,oldy,scx,scy,startx,starty;
@@ -279,7 +279,7 @@ char msg[MAX_CHARS_PL];
 
 
 
-// Fist main view - basic running program information, status, time, start time, eta, temperatures
+// Fist Home - basic running program information, status, time, start time, eta, temperatures
 //
 void LCD_display_mainv1(){
 char msg[MAX_CHARS_PL];
@@ -926,11 +926,11 @@ void LCD_Display_about(){
   LCD_State=SCR_ABOUT;   // Update what are we showing on screen
   u8g2.clearBuffer();
   u8g2.setFont(FONT8);
-  u8g2.drawStr(28,15,PVer);
+  u8g2.drawStr(20,15,PVer);
   u8g2.drawStr(36,30,PDate);
   u8g2.setFont(FONT6);
   u8g2.drawStr(8,45,"Web page:");
-  u8g2.drawStr(8,55,"adrian.siemieniak.net");
+  u8g2.drawStr(8,55,"alejandro.md");
   u8g2.drawFrame(2,2,SCREEN_W-4,SCREEN_H-4);
   u8g2.drawFrame(0,0,SCREEN_W,SCREEN_H);
   u8g2.sendBuffer();
@@ -942,7 +942,7 @@ void LCD_Display_about(){
 void Restart_ESP(){
   u8g2.clearBuffer();
   u8g2.setFont(FONT8);
-  u8g2.drawStr(25,30,PVer);
+  u8g2.drawStr(20,30,PVer);
   u8g2.setFont(FONT7);
   u8g2.drawStr(18,45,"is restarting...");
   u8g2.drawFrame(0,0,SCREEN_W,SCREEN_H);
@@ -999,7 +999,7 @@ void Setup_LCD(void) {
   
   u8g2.clearBuffer();         // clear the internal memory
   u8g2.setFont(FONT8);
-  u8g2.drawStr(27,30,PVer);
+  u8g2.drawStr(20,30,PVer);
   u8g2.drawStr(38,45,"starting...");
   u8g2.drawFrame(2,2,123,59);
   u8g2.drawFrame(0,0,127,63);

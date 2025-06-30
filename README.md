@@ -1,5 +1,5 @@
-# pidkiln
-PIDKiln is PID temperature controller, for any task involving high temperatures - like burning ceramic, glass fusing, soft metal melting, burning lost wax casting forms - and probably much more.
+# ESP32Kiln
+ESP32Kiln is PID temperature controller, for any task involving high temperatures - like burning ceramic, glass fusing, soft metal melting, burning lost wax casting forms - and probably much more.
 
 ## Key features:
 - Interface accessible both from LCD screen and WWW Webpage
@@ -14,9 +14,9 @@ PIDKiln is PID temperature controller, for any task involving high temperatures 
 - ...simply cool and cheap (comparing to commercially available products) all in one solution
 
 ### Sample LCD screens
-![LCD menu sample](https://raw.githubusercontent.com/Saur0o0n/pidkiln/master/Documentation/images/PIDKiln_LCD_sample2.png)
+![LCD menu sample](Documentation/images/PIDKiln_LCD_sample2.png)
 ### Sample Web interface window
-![Web interface](https://github.com/Saur0o0n/PIDKiln/blob/master/Documentation/images/PIDKiln-web-chart.jpg)
+![Web interface](Documentation/images/PIDKiln-web-chart.png)
 
 ## Required components:
 - ESP32-Wrover board (I've used TTGO with MicroSD)
@@ -150,11 +150,11 @@ GND   | GND
 
 **Minimal configuration of PIDKiln**
 
-![PIDkiln minimal wiring](https://raw.githubusercontent.com/Saur0o0n/pidkiln/master/Documentation/PIDKiln_Wiring-min.png)
+![PIDkiln minimal wiring](Documentation/PIDKiln_Wiring-min.png)
 
 **Standard configuration of PIDKiln**
 
-![PIDkiln wiring](https://raw.githubusercontent.com/Saur0o0n/pidkiln/master/Documentation/PIDKiln_Wiring.png)
+![PIDkiln wiring](Documentation/PIDKiln_Wiring.png)
 
 ## Power consideration
 
@@ -171,7 +171,6 @@ This is short version - for detailed one, please see [Wiki documentation](https:
 - Don't forget about ESP32FS plugin (drop it to "/home/username/Arduino/tools")
 - Install required additional libraries (not all can be installed from Arduino IDE Library Manager): [ESPAsyncWebServer](https://github.com/me-no-dev/ESPAsyncWebServer), [AsyncTCP](https://github.com/me-no-dev/AsyncTCP), [PID Library](https://github.com/br3ttb/Arduino-PID-Library/), [u8g2](https://github.com/olikraus/u8g2) and perhaps [emon](https://github.com/openenergymonitor/EmonLib) if you plan to use power meter. Since PIDKiln 1.1 you also need [Syslog](https://github.com/arcao/Syslog) library.
 - Install also (this has changed in PIDKiln v1.1) [my clone of MAX31855](https://github.com/Saur0o0n/MAX31855) - this implements second HW SPI for ESP32.
-- Update (there is no other way to do it) libraries/ESPAsyncWebServer/src/WebResponseImpl.h variable TEMPLATE_PLACEHOLDER to '~'.
 - For production use, disable serial debug in PIDKiln.ino - set it on false (''#define DEBUG false'')
 - Compile and upload.
 - Open data/etc/pidkiln.conf and edit your WiFi credentials (if you want to use) and, if you want, some additional parameters.

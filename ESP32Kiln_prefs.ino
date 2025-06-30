@@ -195,6 +195,10 @@ char tmp[30];
         Prefs[PRF_INIT_TIME].value.str=strdup("00:00:00");
         break;
 
+      case PRF_PID_ALGORITHM:  // how often recalculate SSR on/off - 5 second window default
+        Prefs[PRF_PID_ALGORITHM].type=UINT16;
+        Prefs[PRF_PID_ALGORITHM].value.uint16=5;
+        break;
       case PRF_PID_WINDOW:  // how often recalculate SSR on/off - 5 second window default
         Prefs[PRF_PID_WINDOW].type=UINT16;
         Prefs[PRF_PID_WINDOW].value.uint16=5000;
@@ -219,7 +223,6 @@ char tmp[30];
         Prefs[PRF_PID_TEMP_THRESHOLD].type=INT16;
         Prefs[PRF_PID_TEMP_THRESHOLD].value.int16=-1;
         break;
-
       case PRF_LOG_WINDOW:
         Prefs[PRF_LOG_WINDOW].type=UINT16;
         Prefs[PRF_LOG_WINDOW].value.uint16=30;
@@ -274,4 +277,26 @@ char tmp[30];
       default:
         break;
     }
+}
+
+bool setup_OTA(const char* hostname) {
+  
+  DBG dbgLog(LOG_INFO, "OTA setup \n");  
+  // For OTA - Use your own device identifying name (in Constants.h)
+  ArduinoOTA.setHostname(hostname); 
+  ArduinoOTA.onStart([]() {
+    String type;
+    if (ArduinoOTA.getCommand() == U_FLASH) {
+      type = "sketch";
+    } else { // U_FS
+      type = "filesystem";
+    }
+
+    // NOTE: if updating FS this would be the place to unmount FS using FS.end()
+    Serial.println("Start updating " + type);
+    DBG dbgLog(LOG_INFO, "[OTA] Start updating: %s \n", type);
+  });
+
+  ArduinoOTA.begin();
+  return true;
 }

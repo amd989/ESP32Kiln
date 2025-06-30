@@ -1,3 +1,9 @@
+1.6 (2025.06.28)
+- add brand new theme for the UI
+- add auto PID to help with initial tuning.
+- add OTA firmware/data upload capabilities
+- renamed to ESP32Kiln
+
 1.5 (2024.12.18)
 - updated code to compile against ESP3+ API, Arduino 2+ and latest asynce libraries
 

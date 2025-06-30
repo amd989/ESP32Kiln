@@ -1,5 +1,7 @@
 #include <PID_v1.h>
 #include <Syslog.h>
+#include <map>
+
 
 /* 
 ** Some definitions - usually you should not edit this, but you may want to
@@ -24,7 +26,7 @@ const int MAX_Prog_File_Size=10240;  // maximum file size (bytes) that can be up
 
 // MAX31855 variables/defs
 #define MAXCS1  27    // for hardware SPI - HSPI (MOSI-13, MISO-12, CLK-14) - 1st device CS-27
-#define MAXCS2  15    // same SPI - 2nd device CS-15 (comment out if no second thermocouple)
+//#define MAXCS2  15    // same SPI - 2nd device CS-15 (comment out if no second thermocouple)
 
 // If you have power meter - uncoment this
 //#define ENERGY_MON_PIN 33       // if you don't use - comment out
@@ -41,6 +43,7 @@ double set_temp, pid_out;
 float temp_incr=0;
 uint32_t windowStartTime;
 #define PID_WINDOW_DIVIDER 1
+uint32_t now;
 
 //Specify the links and initial tuning parameters
 PID KilnPID(&kiln_temp, &pid_out, &set_temp, 0, 0, 0, P_ON_E, DIRECT);
@@ -85,7 +88,7 @@ LCD_State_enum LCD_State=SCR_MAIN_VIEW;          // global variable to keep trac
 LCD_MAIN_View_enum LCD_Main=MAIN_VIEW1;          // main screen has some views - where are we
 LCD_SCR_MENU_Item_enum LCD_Menu=M_SCR_MAIN_VIEW; // menu items
 
-const char *Menu_Names[] = {"1) Main view", "2) List programs", "3) Quick program", "4) Information", "5) Preferences", "6) Reconnect WiFi", "7) About", "8) Restart"};
+const char *Menu_Names[] = {"1) Home", "2) List programs", "3) Quick program", "4) Information", "5) Preferences", "6) Reconnect WiFi", "7) About", "8) Restart"};
 
 typedef enum { // program menu positions
   P_EXIT,
@@ -235,6 +238,7 @@ typedef enum { // program menu positions
   PRF_INIT_DATE,
   PRF_INIT_TIME,
   
+  PRF_PID_ALGORITHM,
   PRF_PID_WINDOW,
   PRF_PID_KP,
   PRF_PID_KI,
@@ -265,7 +269,7 @@ const char *PrefsName[]={
 "HTTP_Local_JS",
 "Auth_Username","Auth_Password",
 "NTP_Server1","NTP_Server2","NTP_Server3","GMT_Offset_sec","Daylight_Offset_sec","Initial_Date","Initial_Time",
-"PID_Window","PID_Kp","PID_Ki","PID_Kd","PID_POE","PID_Temp_Threshold",
+"PID_Algorithm", "PID_Window","PID_Kp","PID_Ki","PID_Kd","PID_POE","PID_Temp_Threshold",
 "LOG_Window","LOG_Files_Limit",
 "MIN_Temperature","MAX_Temperature","MAX_Housing_Temperature","Thermal_Runaway","Alarm_Timeout","MAX31855_Error_Grace_Count",
 "DBG_Serial","DBG_Syslog","DBG_Syslog_Srv","DBG_Syslog_Port",
@@ -305,8 +309,8 @@ File CSVFile,LOGFile;
 ** Other stuff
 **
 */
-const char *PVer = "PIDKiln v1.5";
-const char *PDate = "2024.12.18";
+const char *PVer = "ESP32Kiln v1.6";
+const char *PDate = "2025.06.28";
 
 // If defined debug - do debug, otherwise comment out all debug lines
 #define DBG if(DEBUG)
@@ -315,11 +319,9 @@ const char *PDate = "2024.12.18";
 WiFiUDP udpClient;
 Syslog syslog(udpClient, SYSLOG_PROTO_IETF);
 
-
-#define JS_JQUERY "https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"
+#define JS_JQUERY "https://code.jquery.com/jquery-3.5.1.min.js"
 #define JS_CHART "https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.bundle.min.js"
 #define JS_CHART_DS "https://cdn.jsdelivr.net/npm/chartjs-plugin-datasource"
-
 
 /*
 ** Function defs

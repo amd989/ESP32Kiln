@@ -57,6 +57,7 @@ String Preferences_parser(const String& var){
  else if(var=="Alarm_Timeout") return String(Prefs[PRF_ALARM_TIMEOUT].value.uint16);
  else if(var=="MAX31855_Error_Grace_Count") return String(Prefs[PRF_ERROR_GRACE_COUNT].value.uint8);
 
+ else if(var=="PID_Algorithm") return String(Prefs[PRF_PID_ALGORITHM].value.uint16);
  else if(var=="PID_Window") return String(Prefs[PRF_PID_WINDOW].value.uint16);
  else if(var=="PID_Kp") return String(Prefs[PRF_PID_KP].value.vfloat);
  else if(var=="PID_Ki") return String(Prefs[PRF_PID_KI].value.vfloat);
@@ -222,7 +223,7 @@ template_str=String();
   for(uint16_t a=0; a<Programs_DIR_size; a++){
     tmp=String(PRG_Directory)+String("/")+String(Programs_DIR[a].filename);
     
-    template_str += "<tr><td><img src=\"/icons/heat.png\" alt=\"[ICO]\"></td>";
+    template_str += "<tr><td><i class=\"bi bi-filetype-txt text-primary\" style=\"font-size: 1.2rem;\"></i></td>";
     template_str += "<td><a href=\""+tmp+"\" target=\"_blank\">"+String(Programs_DIR[a].filename)+"</a></td>";  
     template_str += "<td>"+String(Programs_DIR[a].filesize)+"</td>";
     if(file=SPIFFS.open(tmp.c_str(),"r")){
@@ -346,7 +347,7 @@ char *str;
 }
 
 
-// Template preprocessor for main view - index.html, about and perhaps others
+// Template preprocessor for Home - index.html, about and perhaps others
 //
 String About_parser(const String& var) {
 String tmp;
@@ -387,7 +388,7 @@ String tmp=String(PRG_Directory);
   // Checking how much has been uploaded - if more then MAX_Prog_File_Size - abort
   if(len+index>MAX_Prog_File_Size){
      DBG dbgLog(LOG_DEBUG,"[HTTP] Uploaded file too large! Aborting\n");
-     request->send(406, "text/html", "<html><body><h1>File is too large!</h1> Current limit is "+String(MAX_Prog_File_Size)+"<br><br><a href=/>Return to main view</a></body></html");
+     request->send(406, "text/html", "<html><body><h1>File is too large!</h1> Current limit is "+String(MAX_Prog_File_Size)+"<br><br><a href=/>Return to Home</a></body></html");
      abort=true;
      return;
   }
@@ -430,7 +431,7 @@ String tmp=String(PRG_Directory);
   DBG dbgLog(LOG_DEBUG,"[HTTP] Next iteration of file upload...\n");
   for(size_t i=0; i<len; i++){
     if(!check_valid_chars(data[i])){ // Basic sanitization - check for allowed characters
-      request->send(200, "text/html", "<html><body><h1>File contains not allowed character(s)!</h1> You can use all letters, numbers and basic symbols in ASCII code.<br><br><a href=/>Return to main view</a></body></html");
+      request->send(200, "text/html", "<html><body><h1>File contains not allowed character(s)!</h1> You can use all letters, numbers and basic symbols in ASCII code.<br><br><a href=/>Return to Home</a></body></html");
       delete_file(newFile);
       DBG dbgLog(LOG_ERR,"[HTTP] Basic program check failed!\n");
       abort=true;
@@ -509,7 +510,7 @@ String tmps;
   
   while(tmpf.available()){
     tmps=tmpf.readStringUntil('\n');
-    tmps.replace("~PROGRAM_NAME~",p->value());
+    tmps.replace("%PROGRAM_NAME%",p->value());
     //DBG Serial.printf("-:%s:\n",tmps.c_str());
     response->println(tmps.c_str());
   }
@@ -558,6 +559,10 @@ boolean save=false;
       DBG dbgLog(LOG_DEBUG,"[HTTP] Prefs parser POST[%s]: %s\n", p->name().c_str(), p->value().c_str());
       if(p->name().equalsIgnoreCase("save")){
         save=true;
+        continue;
+      }else if(p->name().equalsIgnoreCase("pidauto")){
+        DBG dbgLog(LOG_DEBUG,"[HTTP] Handle PID Auto Calibration");
+        HandleCalibration();
         continue;
       }else if(p->name().equalsIgnoreCase("update")){
         continue;
@@ -750,8 +755,8 @@ void SETUP_WebServer(void) {
 
 
   if(Prefs[PRF_HTTP_JS_LOCAL].value.str){
-    server.on("/js/jquery-3.4.1.js", HTTP_GET, [](AsyncWebServerRequest* request) {
-      AsyncWebServerResponse* response = request->beginResponse(SPIFFS, "/js/jquery-3.4.1.js", "text/javascript");
+    server.on("/js/jquery-3.5.1.min.js", HTTP_GET, [](AsyncWebServerRequest* request) {
+      AsyncWebServerResponse* response = request->beginResponse(SPIFFS, "/js/jquery-3.5.1.min.js", "text/javascript");
       response->addHeader("Content-Encoding", "gzip");
       request->send(response);
     });
@@ -766,7 +771,7 @@ void SETUP_WebServer(void) {
       request->send(response);
     });
   }else{
-    server.on("/js/jquery-3.4.1.js", HTTP_GET, [](AsyncWebServerRequest* request) {
+    server.on("/js/jquery-3.5.1.min.js", HTTP_GET, [](AsyncWebServerRequest* request) {
       request->redirect(JS_JQUERY);
     });
     server.on("/js/Chart.2.9.3.bundle.min.js", HTTP_GET, [](AsyncWebServerRequest* request) {
@@ -830,11 +835,10 @@ void SETUP_WebServer(void) {
   );
   
   // Serve some static data
-  server.serveStatic("/icons/", SPIFFS, "/icons/");
   server.serveStatic("/js/", SPIFFS, "/js/");
   server.serveStatic("/css/", SPIFFS, "/css/");
   server.serveStatic(PREFS_FILE, SPIFFS, PREFS_FILE).setAuthentication(Prefs[PRF_AUTH_USER].value.str,Prefs[PRF_AUTH_PASS].value.str);
-  server.serveStatic("/favicon.ico", SPIFFS, "/icons/heat.png");
+
 
   server.onNotFound([](AsyncWebServerRequest *request){
     //request->send(404);

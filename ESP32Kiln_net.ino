@@ -3,7 +3,7 @@
 **
 */
 
-#define DEFAULT_AP "PIDKiln_AP"
+#define DEFAULT_AP "ESP32Kiln_AP"
 #define DEFAULT_PASS "hotashell"
 
 // Other variables
@@ -158,7 +158,6 @@ struct tm timeinfo;
     return 1; // WiFi disabled
   }
 }
-
 
 // Perform WiFi restart - usually when something does not work right - reinitialize it (perhaps preferences has changed)
 //

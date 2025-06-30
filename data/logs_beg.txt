@@ -1,32 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
- <title>Index of PIDKiln programs</title>
- <link rel="stylesheet" href="/css/main.css">
- <link rel="stylesheet" href="/css/nav.css">
- <script type="text/javascript" src="/js/nav.js"></script>
- <meta name="viewport" content="width=device-width, initial-scale=1">
- <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+      <title>ESP32Kiln Logs</title>
+      <script type="text/javascript" src="/js/jquery-3.5.1.min.js"></script>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
+      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+      <link href="/css/esp32kiln-theme.css" rel="stylesheet">
+      <script type="text/javascript" src="/js/nav.js"></script>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+      <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♨️</text></svg>">
 </head>
+
 <body>
 
- <div class="topnav" id="myTopnav">
-  <a href="/index.html">Main view</a>
-  <a href="/programs/index.html">Manage programs</a>
-  <a href="/logs/index.html" class="active">Logs</a>
-  <a href="/preferences.html">Preferences</a>
-  <a href="/about.html">About</a>
-  <a href="/debug_board.html">Debug ESP</a>
-  <a href="/flash_firmware.html">Flash firmware</a>
-  <a href="javascript:void(0);" class="icon" onclick="switch_nav()">
-    <i class="fa fa-bars"></i>
-  </a>
- </div>
+      <nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm">
+            <div class="container-fluid">
+                  <a class="navbar-brand" href="#">ESP32Kiln </a>
+                  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                  </button>
+                  <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                              <li class="nav-item">
+                                    <a class="nav-link" href="/index.html"><i class="bi bi-house-door me-1"></i>Home</a>
+                              </li>
+                              <li class="nav-item">
+                                    <a class="nav-link" href="/programs/index.html"><i class="bi bi-graph-up me-1"></i>Profiles</a>
+                              </li>
+                              <li class="nav-item">
+                                    <a class="nav-link active" href="/logs/index.html"><i class="bi bi-file-text me-1"></i>Logs</a>
+                              </li>
+                              <li class="nav-item">
+                                    <a class="nav-link" href="/preferences.html"><i class="bi bi-gear me-1"></i>Preferences</a>
+                              </li>
+                              <li class="nav-item">
+                                    <a class="nav-link" href="/about.html"><i class="bi bi-info-circle me-1"></i>About</a>
+                              </li>
+                              <li class="nav-item">
+                                    <a class="nav-link" href="/debug_board.html"><i class="bi bi-bug me-1"></i>Debug ESP</a>
+                              </li>
+                              <li class="nav-item">
+                                    <a class="nav-link" href="/flash_firmware.html"><i class="bi bi-upload me-1"></i>Flash firmware</a>
+                              </li>
+                        </ul>
+                        <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
+                              <li class="nav-item dropdown">
+                                    <button
+                                          class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center"
+                                          id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown"
+                                          data-bs-display="static" aria-label="Toggle theme (auto)">
+                                          <i class="bi my-1 theme-icon-active bi-circle-half"></i>
+                                          <span class="d-lg-none ms-2" id="bd-theme-text">Toggle theme</span>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme-text">
+                                          <li>
+                                                <button type="button" class="dropdown-item d-flex align-items-center"
+                                                      data-bs-theme-value="light" aria-pressed="false">
+                                                      <i class="bi me-2 opacity-50 bi-sun-fill"></i>
+                                                      Light
+                                                      <i class="bi ms-auto d-none bi-check2"></i>
+                                                </button>
+                                          </li>
+                                          <li>
+                                                <button type="button" class="dropdown-item d-flex align-items-center"
+                                                      data-bs-theme-value="dark" aria-pressed="false">
+                                                      <i class="bi me-2 opacity-50 bi-moon-stars-fill"></i>
+                                                      Dark
+                                                      <i class="bi ms-auto d-none bi-check2"></i>
+                                                </button>
+                                          </li>
+                                          <li>
+                                                <button type="button"
+                                                      class="dropdown-item d-flex align-items-center active"
+                                                      data-bs-theme-value="auto" aria-pressed="true">
+                                                      <i class="bi me-2 opacity-50 bi-circle-half"></i>
+                                                      Auto
+                                                      <i class="bi ms-auto d-none bi-check2"></i>
+                                                </button>
+                                          </li>
+                                    </ul>
+                              </li>
+                        </ul>
+                  </div>
+            </div>
+      </nav>
 
- <div class="container">
- <h1>Index of logs</h1>
-  <table style="margin-left: 2em;">
-   <tr>
-    <th> Logfile </th><th> Size </th> <th> Program name </th>
-   <tr>
-   <tr><td colspan="3"><hr></td></tr>
+
+ <div class="container mt-4">
+   <nav aria-label="breadcrumb">
+     <ol class="breadcrumb">
+       <li class="breadcrumb-item"><a href="/index.html"><i class="bi bi-house-door me-1"></i>Home</a></li>
+       <li class="breadcrumb-item active" aria-current="page"><i class="bi bi-file-text me-1"></i>Logs</li>
+     </ol>
+   </nav>
+   
+   <div class="page-header">
+     <h1 class="mb-0"><i class="bi bi-file-text me-3"></i>Data Logs</h1>
+   </div>
+ 
+   <div class="table-container">
+     <div class="table-responsive">
+       <table class="table table-striped mb-0">
+         <thead>
+           <tr>
+             <th><i class="bi bi-file-earmark-text me-2"></i>Logfile</th>
+             <th><i class="bi bi-hdd me-2"></i>Size</th>
+             <th><i class="bi bi-graph-up me-2"></i>Program Name</th>
+           </tr>
+         </thead>
+         <tbody>

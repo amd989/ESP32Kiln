@@ -32,20 +32,20 @@ var config_with = {
 			borderColor: 'transparent',
 			fill: true
 		     }, {
-			label: 'Running program ~PROGRAM_NAME~',
+			label: 'Running program %PROGRAM_NAME%',
 			yAxisID: 'temperature',
 			backgroundColor: 'transparent',
 			borderColor: chartColors.blue,
 			fill: false,
 			tension: 0.1,
-			data: [~CHART_DATA~]
+			data: [%CHART_DATA%]
 		}]
 	},
 	plugins: [ChartDataSource],
 	options: {
 		title: {
 			display: true,
-			text: 'Set program: ~PROGRAM_NAME~ vs actual temperature'
+			text: 'Set program: %PROGRAM_NAME% vs actual temperature'
 		},
 		responsive: true,
 		scales: {
@@ -94,7 +94,7 @@ var config_with = {
 		plugins: {
 			datasource: {
 				type: 'csv',
-				url: '~LOG_FILE~',
+				url: '%LOG_FILE%',
 				delimiter: ',',
 				rowMapping: 'index',
 				datasetLabels: true,
@@ -109,13 +109,13 @@ var config_without = {
 	type: 'line',
 	data: {
 		datasets: [{
-			label: 'Loaded program: ~PROGRAM_NAME~',
+			label: 'Loaded program: %PROGRAM_NAME%',
 			tension: 0.1,
 			yAxisID: 'temperature',
 			backgroundColor: 'transparent',
 			borderColor: chartColors.blue,
 			fill: false,
-			data: [~CHART_DATA~]
+			data: [%CHART_DATA%]
 		}]
 	},
 	options: {
@@ -156,7 +156,7 @@ var config_without = {
 	}
 };
 
-var chart = new Chart(ctx, ~CONFIG~);
+var chart = new Chart(ctx, %CONFIG%);
 
 function chart_update(){
 //  console.log("Updating chart");
