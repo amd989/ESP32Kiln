@@ -1,3 +1,6 @@
+1.7 (2025.07.23)
+- completed auto PID tuning.
+
 1.6 (2025.06.28)
 - add brand new theme for the UI
 - add auto PID to help with initial tuning.

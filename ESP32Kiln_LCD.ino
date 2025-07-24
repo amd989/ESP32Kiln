@@ -937,6 +937,25 @@ void LCD_Display_about(){
 }
 
 
+// Display PID tuning screen
+//
+void LCD_Display_pid(){
+  // char msg[100];
+  // LCD_State=SCR_PID;   // Update what are we showing on screen
+  // u8g2.clearBuffer();
+  // u8g2.setFont(FONT6);
+  // sprintf(msg,"Kp: %d",_calP);
+  // u8g2.drawStr(20,15,msg);
+  // sprintf(msg,"Ki: %d",_calI);
+  // u8g2.drawStr(20,30,msg);
+  // sprintf(msg,"Kd: %d",_calD);
+  // u8g2.drawStr(36,45,msg);
+  // u8g2.drawFrame(2,2,SCREEN_W-4,SCREEN_H-4);
+  // u8g2.drawFrame(0,0,SCREEN_W,SCREEN_H);
+  // u8g2.sendBuffer();
+}
+
+
 // Restart the ESP device
 //
 void Restart_ESP(){
