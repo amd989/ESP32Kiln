@@ -488,75 +488,103 @@ void SAFETY_Check(){
 
 // Function that create task to handle program running
 //
-void Program_Loop(void * parameter){
-static uint16_t cnt1=0;
+void Program_Loop(void *parameter)
+{
+  static uint16_t cnt1 = 0;
 
- for(;;){
-    
+  for (;;)
+  {
+
     now = millis();
 
     // OTA
     ArduinoOTA.handle();
- 
+
     // Interrupts triggered ones per second
-    // 
-    if (xSemaphoreTake(timerSemaphore, 0) == pdTRUE){
+    //
+    if (xSemaphoreTake(timerSemaphore, 0) == pdTRUE)
+    {
 
       // Update temperature readout
       Update_TemperatureA();
 
       // Check if there is Alarm ON - if so, lower time and call STOP
-      if(ALARM_countdown>0){
-        if(ALARM_countdown<=1) STOP_Alarm();
+      if (ALARM_countdown > 0)
+      {
+        if (ALARM_countdown <= 1)
+          STOP_Alarm();
         ALARM_countdown--;
       }
 
       // Do slow stuff every 10th second - cnt1=[0..9]
       //
-      if(cnt1>9) cnt1=0;
-      else cnt1++;
+      if (cnt1 > 9)
+        cnt1 = 0;
+      else
+        cnt1++;
 #ifdef MAXCS2
-      if(cnt1==3){  // just to make it in other time then next if cnt1
-        Update_TemperatureB();      // this does not have to be updated so often as kiln temp
+      if (cnt1 == 3)
+      {                        // just to make it in other time then next if cnt1
+        Update_TemperatureB(); // this does not have to be updated so often as kiln temp
       }
 #endif
 #ifdef ENERGY_MON_PIN
-      if(cnt1==4){
+      if (cnt1 == 4)
+      {
         Read_Energy_INPUT();
       }
 #endif
       // Do Home screen refreshing if there is a program and if it's running
-      if(LCD_State==SCR_MAIN_VIEW && Program_run_size && LCD_Main==MAIN_VIEW1) LCD_display_mainv1();
+      if (LCD_State == SCR_MAIN_VIEW && Program_run_size && LCD_Main == MAIN_VIEW1)
+        LCD_display_mainv1();
 
-      if(Program_run_state==PR_RUNNING || Program_run_state==PR_PAUSED || Program_run_state==PR_THRESHOLD){
-        // Do all the program recalc
-        Program_calculate_steps();
-
-        if(cnt1==6){
-          SAFETY_Check();
-        }else if(cnt1==9){
-          cnt1=0;
-          if(LCD_Main==MAIN_VIEW2 && (Program_run_state==PR_RUNNING || Program_run_state==PR_PAUSED)) LCD_display_mainv2();
-          DBG dbgLog(LOG_INFO,"[PRG] Pid_out RAW:%.2f Pid_out:%.2f Now-window:%d WindowSize:%d Prg_state:%d\n",pid_out,pid_out*PID_WINDOW_DIVIDER,(now - windowStartTime), Prefs[PRF_PID_WINDOW].value.uint16, (byte)Program_run_state);
-        }
-       }
-    }
-
-    // Do the PID stuff
-    if(Program_run_state==PR_RUNNING || Program_run_state==PR_PAUSED || Program_run_state==PR_THRESHOLD){
-      KilnPID.Compute();
-
-      if (now - windowStartTime > Prefs[PRF_PID_WINDOW].value.uint16){ //time to shift the Relay Window
-        windowStartTime += Prefs[PRF_PID_WINDOW].value.uint16;
+      // Calibrate
+      if (Program_run_state == PR_CALIBRATE)
+      {
+        HandleCalibration(now);
       }
-      if (pid_out*PID_WINDOW_DIVIDER > now - windowStartTime) Enable_SSR();
-      else Disable_SSR();
+      else
+      {
+
+        if (Program_run_state == PR_RUNNING || Program_run_state == PR_PAUSED || Program_run_state == PR_THRESHOLD)
+        {
+          // Do all the program recalc
+          Program_calculate_steps();
+
+          if (cnt1 == 6)
+          {
+            SAFETY_Check();
+          }
+          else if (cnt1 == 9)
+          {
+            cnt1 = 0;
+            if (LCD_Main == MAIN_VIEW2 && (Program_run_state == PR_RUNNING || Program_run_state == PR_PAUSED))
+              LCD_display_mainv2();
+            DBG dbgLog(LOG_INFO, "[PRG] Pid_out RAW:%.2f Pid_out:%.2f Now-window:%d WindowSize:%d Prg_state:%d\n", pid_out, pid_out * PID_WINDOW_DIVIDER, (now - windowStartTime), Prefs[PRF_PID_WINDOW].value.uint16, (byte)Program_run_state);
+          }
+        }
+      }
+
+      // Do the PID stuff
+      if (Program_run_state == PR_RUNNING || Program_run_state == PR_PAUSED || Program_run_state == PR_THRESHOLD || Program_run_state == PR_READY)
+      {
+        KilnPID.Compute();
+
+        if (now - windowStartTime > Prefs[PRF_PID_WINDOW].value.uint16)
+        { // time to shift the Relay Window
+          windowStartTime += Prefs[PRF_PID_WINDOW].value.uint16;
+        }
+        if (pid_out * PID_WINDOW_DIVIDER > now - windowStartTime)
+          Enable_SSR();
+        else
+          Disable_SSR();
+      }
     }
-    //yield();
+
+    // yield();
     vTaskDelay(10); // This should enable to run other tasks on this core
   }
 }
-
 
 /*
 ** Main setup function for programs module

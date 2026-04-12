@@ -41,9 +41,16 @@ uint16_t ALARM_countdown=0; // countdown in seconds to stop alarm
 double int_temp=20, kiln_temp=20, case_temp=20;
 double set_temp, pid_out;
 float temp_incr=0;
-uint32_t windowStartTime;
 #define PID_WINDOW_DIVIDER 1
-uint32_t now;
+unsigned long windowStartTime;
+unsigned long now;
+
+/*
+** PID variables for AutoPID
+*/
+// float _calP = .5 / DEFAULT_TEMP_RISE_AFTER_OFF;
+// float _calI = 4 / DEFAULT_TEMP_RISE_AFTER_OFF;
+// float _calD = 5.0 / DEFAULT_TEMP_RISE_AFTER_OFF;
 
 //Specify the links and initial tuning parameters
 PID KilnPID(&kiln_temp, &pid_out, &set_temp, 0, 0, 0, P_ON_E, DIRECT);
@@ -62,7 +69,8 @@ typedef enum {
   SCR_QUICK_PROGRAM,  // set manually desire, single program step
   SCR_ABOUT,          // short info screen
   SCR_PREFERENCES,    // show current preferences
-  SCR_OTHER           // some other screens like about that are stateless
+  SCR_OTHER,          // some other screens like about that are stateless
+  SCR_PID             // PID tuning screen
 } LCD_State_enum;
 
 typedef enum { // different main screens
@@ -80,6 +88,7 @@ typedef enum { // menu positions
   M_PREFERENCES,
   M_CONNECT_WIFI,
   M_ABOUT,
+  M_PID,
   M_RESTART,
   M_END
 } LCD_SCR_MENU_Item_enum;
@@ -143,10 +152,11 @@ typedef enum { // program menu positions
   PR_ABORTED,
   PR_ENDED,
   PR_THRESHOLD,
+  PR_CALIBRATE, // this is for PID calibration
   PR_end
 } PROGRAM_RUN_STATE;
 PROGRAM_RUN_STATE Program_run_state=PR_NONE; // running program state
-const char *Prog_Run_Names[] = {"unknown","Ready","Running","Paused","Aborted","Ended","Waiting"};
+const char *Prog_Run_Names[] = {"unknown","Ready","Running","Paused","Aborted","Ended","Waiting","Calibrating"};
 
 /* 
 **  Program errors:
@@ -245,6 +255,7 @@ typedef enum { // program menu positions
   PRF_PID_KD,
   PRF_PID_POE,
   PRF_PID_TEMP_THRESHOLD,
+  PRF_PID_MEASURE_INTERVAL,
 
   PRF_LOG_WINDOW,
   PRF_LOG_LIMIT,
@@ -269,7 +280,7 @@ const char *PrefsName[]={
 "HTTP_Local_JS",
 "Auth_Username","Auth_Password",
 "NTP_Server1","NTP_Server2","NTP_Server3","GMT_Offset_sec","Daylight_Offset_sec","Initial_Date","Initial_Time",
-"PID_Algorithm", "PID_Window","PID_Kp","PID_Ki","PID_Kd","PID_POE","PID_Temp_Threshold",
+"PID_Algorithm", "PID_Window","PID_Kp","PID_Ki","PID_Kd","PID_POE","PID_Temp_Threshold", "PID_MeasureInterval",
 "LOG_Window","LOG_Files_Limit",
 "MIN_Temperature","MAX_Temperature","MAX_Housing_Temperature","Thermal_Runaway","Alarm_Timeout","MAX31855_Error_Grace_Count",
 "DBG_Serial","DBG_Syslog","DBG_Syslog_Srv","DBG_Syslog_Port",
@@ -309,8 +320,8 @@ File CSVFile,LOGFile;
 ** Other stuff
 **
 */
-const char *PVer = "ESP32Kiln v1.6";
-const char *PDate = "2025.06.28";
+const char *PVer = "ESP32Kiln v1.7";
+const char *PDate = "2025.07.23";
 
 // If defined debug - do debug, otherwise comment out all debug lines
 #define DBG if(DEBUG)

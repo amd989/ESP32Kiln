@@ -59,6 +59,7 @@ String Preferences_parser(const String& var){
 
  else if(var=="PID_Algorithm") return String(Prefs[PRF_PID_ALGORITHM].value.uint16);
  else if(var=="PID_Window") return String(Prefs[PRF_PID_WINDOW].value.uint16);
+ else if(var=="PID_Measure_Interval") return String(Prefs[PRF_PID_MEASURE_INTERVAL].value.uint16);
  else if(var=="PID_Kp") return String(Prefs[PRF_PID_KP].value.vfloat);
  else if(var=="PID_Ki") return String(Prefs[PRF_PID_KI].value.vfloat);
  else if(var=="PID_Kd") return String(Prefs[PRF_PID_KD].value.vfloat);
@@ -561,8 +562,8 @@ boolean save=false;
         save=true;
         continue;
       }else if(p->name().equalsIgnoreCase("pidauto")){
-        DBG dbgLog(LOG_DEBUG,"[HTTP] Handle PID Auto Calibration");
-        HandleCalibration();
+        DBG dbgLog(LOG_DEBUG,"[HTTP] Handle PID Auto Calibration");        
+        CalibrateInit();
         continue;
       }else if(p->name().equalsIgnoreCase("update")){
         continue;

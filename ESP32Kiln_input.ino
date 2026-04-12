@@ -30,6 +30,7 @@ void pressed_menu(){
     case M_PREFERENCES: LCD_Display_prefs(); break;
     case M_CONNECT_WIFI: LCD_Reconect_WiFi(); break;
     case M_ABOUT: LCD_Display_about(); break;
+    case M_PID: LCD_Display_pid(); break;
     case M_RESTART: Restart_ESP(); break;
     default: break;
   }
