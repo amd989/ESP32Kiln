@@ -37,7 +37,7 @@ var config_with = {
 			backgroundColor: 'transparent',
 			borderColor: chartColors.blue,
 			fill: false,
-			tension: 0.1,
+			tension: 0,
 			data: [%CHART_DATA%]
 		}]
 	},
@@ -110,7 +110,7 @@ var config_without = {
 	data: {
 		datasets: [{
 			label: 'Loaded program: %PROGRAM_NAME%',
-			tension: 0.1,
+			tension: 0,
 			yAxisID: 'temperature',
 			backgroundColor: 'transparent',
 			borderColor: chartColors.blue,

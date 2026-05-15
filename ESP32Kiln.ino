@@ -111,7 +111,7 @@ void setup() {
 // ESP32 will continue to work properly even in AsynTCP will hang - there will be no HTTP connection. If you do not like this - comment out next 6 lines.
   esp_task_wdt_config_t config = {
     .timeout_ms = 60* 1000,  //  60 seconds
-    .trigger_panic = true,     // Trigger panic if watchdog timer is not reset
+    .trigger_panic = false,    // Log warning on timeout instead of panic/reboot
   };
   esp_task_wdt_reconfigure(&config);
   rtc_wdt_protect_off();

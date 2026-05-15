@@ -114,7 +114,8 @@ boolean Start_WiFi_CLIENT(){
   WiFi.begin(Prefs[PRF_WIFI_SSID].value.str, Prefs[PRF_WIFI_PASS].value.str);
   DBG dbgLog(LOG_INFO,"[NET] Connecting to WiFi as Client...\n");
     
-  for(byte a=0; !Prefs[PRF_WIFI_RETRY_CNT].value.uint8 || a<Prefs[PRF_WIFI_RETRY_CNT].value.uint8; a++){  // if PRF_WIFI_RETRY_CNT - try indefinitely
+  byte max_retries = Prefs[PRF_WIFI_RETRY_CNT].value.uint8 ? Prefs[PRF_WIFI_RETRY_CNT].value.uint8 : 20;  // 0 = try up to 20 times (30s) instead of infinite
+  for(byte a=0; a<max_retries; a++){
     delay(1500);
     if (WiFi.status() == WL_CONNECTED) return 0;
     DBG dbgLog(LOG_INFO,"[NET] Connecting to AP WiFi... %d/%d\n",a+1,Prefs[PRF_WIFI_RETRY_CNT].value.uint8);
@@ -139,7 +140,7 @@ struct tm timeinfo;
     if(Prefs[PRF_WIFI_MODE].value.uint8==1 || Prefs[PRF_WIFI_MODE].value.uint8==2){ // 1 - tries as client if failed, be AP; 2 - just try as client
       err=Start_WiFi_CLIENT();
       if(!err){
-        configTime(Prefs[PRF_GMT_OFFSET].value.int16, Prefs[PRF_DAYLIGHT_OFFSET].value.int16, Prefs[PRF_NTPSERVER1].value.str, Prefs[PRF_NTPSERVER2].value.str, Prefs[PRF_NTPSERVER3].value.str); // configure RTC clock with NTP server - or at least try
+        configTime(Prefs[PRF_GMT_OFFSET].value.int32, Prefs[PRF_DAYLIGHT_OFFSET].value.int16, Prefs[PRF_NTPSERVER1].value.str, Prefs[PRF_NTPSERVER2].value.str, Prefs[PRF_NTPSERVER3].value.str); // configure RTC clock with NTP server - or at least try
         SETUP_WebServer(); // Setup function for Webserver from PIDKiln_http.ino
         initSysLog();
         return 0;    // all is ok - connected

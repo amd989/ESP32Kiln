@@ -939,20 +939,59 @@ void LCD_Display_about(){
 
 // Display PID tuning screen
 //
-void LCD_Display_pid(){
-  // char msg[100];
-  // LCD_State=SCR_PID;   // Update what are we showing on screen
-  // u8g2.clearBuffer();
-  // u8g2.setFont(FONT6);
-  // sprintf(msg,"Kp: %d",_calP);
-  // u8g2.drawStr(20,15,msg);
-  // sprintf(msg,"Ki: %d",_calI);
-  // u8g2.drawStr(20,30,msg);
-  // sprintf(msg,"Kd: %d",_calD);
-  // u8g2.drawStr(36,45,msg);
-  // u8g2.drawFrame(2,2,SCREEN_W-4,SCREEN_H-4);
-  // u8g2.drawFrame(0,0,SCREEN_W,SCREEN_H);
-  // u8g2.sendBuffer();
+void LCD_Display_pid(int dir=0, boolean pressed=0){
+uint16_t x,y,h;
+uint8_t chh,half;
+static boolean yes=false;
+boolean is_calibrating=(Program_run_state==PR_CALIBRATE);
+
+  LCD_State=SCR_PID;
+
+  u8g2.clearBuffer();
+  u8g2.setFont(FONT7);
+  u8g2.setFontPosBottom();
+  u8g2.setFontMode(0);
+  chh=u8g2.getMaxCharHeight()+2;
+  x=5; y=15; h=SCREEN_H-y-x;
+  u8g2.drawFrame(x,y,SCREEN_W-2*x,h);
+  u8g2.setDrawColor(0);
+  x++;y++;
+  u8g2.drawBox(x,y,SCREEN_W-2*x,h-2);
+  half=floor((SCREEN_W-2*x-2)/2);
+  y+=chh+1; x+=4;
+  u8g2.setDrawColor(1);
+
+  if(!dir && !pressed) yes=false; // reset to default on first entry
+
+  if(pressed){
+    if(yes){
+      if(is_calibrating) CalibrateAbort();
+      else CalibrateInit();
+    }
+    LCD_display_main_view();
+    return;
+  }
+
+  if(dir>0) yes=true;
+  else if(dir<0) yes=false;
+
+  u8g2.drawStr(x,y,is_calibrating ? "Stop AutoTune?" : "Start AutoTune?");
+  y+=chh;
+  x+=2;
+  if(!yes){
+    u8g2.drawBox(7,y-chh+1,half,h/2-3);
+    u8g2.setDrawColor(0);
+    u8g2.drawStr(x+5,y,"No");
+    u8g2.setDrawColor(1);
+    u8g2.drawStr(x+half+5,y,"Yes");
+  }else{
+    u8g2.drawStr(x+5,y,"No");
+    u8g2.drawBox(7+half,y-chh+1,half,h/2-3);
+    u8g2.setDrawColor(0);
+    u8g2.drawStr(x+half+5,y,"Yes");
+    u8g2.setDrawColor(1);
+  }
+  u8g2.sendBuffer();
 }
 
 

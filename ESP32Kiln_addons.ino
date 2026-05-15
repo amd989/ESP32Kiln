@@ -79,9 +79,9 @@ Serial.println();
 void Update_TemperatureA()
 {
   uint32_t raw;
-  double kiln_tmp1;
+  double kiln_tmp1 = 0;
 
-  //kiln_tmp1 = ThermocoupleA.getColdJunctionTemperature(raw); 
+  //kiln_tmp1 = ThermocoupleA.getColdJunctionTemperature(raw);
   int_temp = (int_temp+kiln_tmp1)/2;
   
   kiln_tmp1 = ThermocoupleA.readCelsius();
@@ -158,9 +158,9 @@ double kiln_tmp1;
 void Update_TemperatureB()
 {
   uint32_t raw;
-  double case_tmp1;
+  double case_tmp1 = 0;
 
-  //case_tmp1 = ThermocoupleB.getColdJunctionTemperature(raw); 
+  //case_tmp1 = ThermocoupleB.getColdJunctionTemperature(raw);
   int_temp = (int_temp+case_tmp1)/2;
   
   case_tmp1 = ThermocoupleB.readCelsius();

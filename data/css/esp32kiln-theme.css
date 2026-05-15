@@ -142,7 +142,8 @@
 /* Chart Container */
 .chart-container {
   padding: 1.5rem;
-  height: 550px;
+  height: 75vh;
+  min-height: 550px;
   position: relative;
 }
 

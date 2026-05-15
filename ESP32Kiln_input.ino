@@ -49,6 +49,7 @@ void button_Short_Press(){
   else if(LCD_State==SCR_PROGRAM_DELETE) LCD_Display_program_delete(0,1);
   else if(LCD_State==SCR_PROGRAM_FULL) LCD_Display_program_summary(0,1);
   else if(LCD_State==SCR_QUICK_PROGRAM) LCD_Display_quick_program(0,2);
+  else if(LCD_State==SCR_PID) LCD_Display_pid(0,1);
   else LCD_display_menu();  // if pressed something else - go back to menu
 }
 
@@ -110,6 +111,7 @@ void Rotate(){
   else if(LCD_State==SCR_PROGRAM_FULL) LCD_Display_program_full(encoderValue);
   else if(LCD_State==SCR_PREFERENCES) LCD_Display_prefs(encoderValue);
   else if(LCD_State==SCR_QUICK_PROGRAM) LCD_Display_quick_program(encoderValue,1);
+  else if(LCD_State==SCR_PID) LCD_Display_pid(encoderValue,0);
 }
 
 

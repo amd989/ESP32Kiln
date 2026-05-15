@@ -311,7 +311,10 @@ void END_Program(){
 //
 void ABORT_Program(uint8_t error){
 
-  if(Program_run_state==PR_RUNNING || Program_run_state==PR_PAUSED){
+  if(Program_run_state==PR_CALIBRATE){
+    Program_error=error;
+    CalibrateAbort();
+  }else if(Program_run_state==PR_RUNNING || Program_run_state==PR_PAUSED){
     Program_error=error;
     DBG dbgLog(LOG_INFO,"[PRG] Aborting program with error: %d\n",Program_error);
     END_Program();

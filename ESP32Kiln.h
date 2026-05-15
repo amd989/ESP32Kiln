@@ -97,7 +97,7 @@ LCD_State_enum LCD_State=SCR_MAIN_VIEW;          // global variable to keep trac
 LCD_MAIN_View_enum LCD_Main=MAIN_VIEW1;          // main screen has some views - where are we
 LCD_SCR_MENU_Item_enum LCD_Menu=M_SCR_MAIN_VIEW; // menu items
 
-const char *Menu_Names[] = {"1) Home", "2) List programs", "3) Quick program", "4) Information", "5) Preferences", "6) Reconnect WiFi", "7) About", "8) Restart"};
+const char *Menu_Names[] = {"1) Home", "2) List programs", "3) Quick program", "4) Information", "5) Preferences", "6) Reconnect WiFi", "7) About", "8) PID Tune", "9) Restart"};
 
 typedef enum { // program menu positions
   P_EXIT,

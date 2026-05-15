@@ -1,0 +1,7 @@
+# Recommended Burnout Cycle - Standard
+# Prestige Oro Investment casting burnout schedule
+# target_temp_C:ramp_minutes:dwell_minutes
+150:60:180
+370:60:120
+750:120:240
+600:60:180
